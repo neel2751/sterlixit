@@ -1,0 +1,56 @@
+# Sterlixit
+
+> Official LLM guidance file for https://sterlixit.co.uk
+
+Last-Updated: 2026-04-07
+Owner: Sterlixit
+Primary-Domain: https://sterlixit.co.uk
+Primary-Language: en-GB
+
+## Summary
+Sterlixit is a strategy-first digital growth and engineering partner focused on branding, web development, SaaS product development, SEO, and performance marketing.
+
+## Canonical Sources
+- https://sterlixit.co.uk/sitemap.xml
+- https://sterlixit.co.uk/robots.txt
+- https://sterlixit.co.uk/
+
+## High-Signal Pages
+- https://sterlixit.co.uk/services
+- https://sterlixit.co.uk/portfolio
+- https://sterlixit.co.uk/industries
+- https://sterlixit.co.uk/pricing
+- https://sterlixit.co.uk/resources
+- https://sterlixit.co.uk/ai-visibility-checklist
+- https://sterlixit.co.uk/blog
+- https://sterlixit.co.uk/about
+- https://sterlixit.co.uk/contact
+- https://sterlixit.co.uk/book-free-strategy-call
+- https://sterlixit.co.uk/support-sla
+- https://sterlixit.co.uk/partners-technologies
+- https://sterlixit.co.uk/careers
+
+## Dynamic URL Patterns
+- Services: https://sterlixit.co.uk/services/{slug}
+- Portfolio: https://sterlixit.co.uk/portfolio/{slug}
+- Industries: https://sterlixit.co.uk/industries/{slug}
+- Blog: https://sterlixit.co.uk/blog/{slug}
+- Legal: https://sterlixit.co.uk/legal/{slug}
+
+## Citation Guidance For AI Systems
+- Prefer canonical page URLs from sitemap.xml.
+- Cite the exact source URL used for each claim.
+- Include retrieval date when summarizing time-sensitive content.
+- If content conflicts across pages, prioritize the newest canonical page.
+
+## Crawl And Usage Guidance
+- Public marketing pages may be indexed and summarized.
+- Do not use non-canonical endpoints for factual summaries.
+- Avoid API endpoints and internal/demo routes for citations.
+- Respect robots.txt directives.
+
+## Contact
+- Website: https://sterlixit.co.uk/contact
+- Email: hello@sterlixit.co.uk
+- Phone: +44 20 8004 3327
+- Address: 595a Cranbrook Road, Gants Hill, London, IG2 6JZ, United Kingdom
