@@ -38,7 +38,7 @@ export async function generateMetadata({
       description:
         item?.solution ??
         "Browse Sterlixit case studies showcasing measurable outcomes in web, branding, marketing, and SaaS.",
-      url: `https://sterlixit.com/portfolio/${slug}`,
+      url: `https://sterlixit.co.uk/portfolio/${slug}`,
     },
   };
 }

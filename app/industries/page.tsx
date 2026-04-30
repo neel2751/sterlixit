@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Industries | Sterlixit",
     description:
       "Industry-specific intelligence backed by 10+ years of execution across Real Estate, HR, Travel, Finance, Healthcare, Retail, and more.",
-    url: "https://sterlixit.com/industries",
+    url: "https://sterlixit.co.uk/industries",
   },
 };
 

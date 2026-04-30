@@ -416,8 +416,8 @@ export function SupportSlaPageContent() {
                   to our team and we will route it appropriately.
                 </p>
                 <Button asChild variant="outline" className="mt-4 rounded-full">
-                  <Link href="mailto:hello@sterlixit.com?subject=Support%20and%20Maintenance%20SLA%20Enquiry">
-                    Email hello@sterlixit.com
+                  <Link href="mailto:hello@sterlixit.co.uk?subject=Support%20and%20Maintenance%20SLA%20Enquiry">
+                    Email hello@sterlixit.co.uk
                     <ArrowRight className="ml-2 size-4" />
                   </Link>
                 </Button>

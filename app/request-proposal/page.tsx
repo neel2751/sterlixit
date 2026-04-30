@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Request a Proposal | Sterlixit",
     description:
       "Request a tailored digital proposal from Sterlixit for branding, web design, SaaS, or growth work. Share your scope, timeline, and goals to receive a focused recommendation.",
-    url: "https://sterlixit.com/request-proposal",
+    url: "https://sterlixit.co.uk/request-proposal",
   },
 };
 

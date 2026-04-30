@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Frequently Asked Questions | Sterlixit",
     description:
       "Answers to the most common questions about Sterlixit's services, pricing, timelines, and delivery process across branding, web development, and digital marketing.",
-    url: "https://sterlixit.com/faq",
+    url: "https://sterlixit.co.uk/faq",
   },
 };
 

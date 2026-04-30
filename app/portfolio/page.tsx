@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Case Studies | Sterlixit",
     description:
       "Explore Sterlixit case studies across SaaS, real estate, e-commerce, healthcare, and logistics with measurable outcomes.",
-    url: "https://sterlixit.com/portfolio",
+    url: "https://sterlixit.co.uk/portfolio",
   },
 };
 

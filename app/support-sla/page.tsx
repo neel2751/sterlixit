@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Support SLA Enquiry | Sterlixit",
     description:
       "Request a scoped support and maintenance SLA review from Sterlixit. Share your platform details and our team will follow up by email or call.",
-    url: "https://sterlixit.com/support-sla",
+    url: "https://sterlixit.co.uk/support-sla",
   },
 };
 

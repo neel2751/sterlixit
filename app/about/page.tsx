@@ -19,7 +19,7 @@
  *     title: "About Us | Sterlixit",
  *     description:
  *       "Sterlixit is a strategy-led digital agency helping businesses build, launch, and scale high-performing digital experiences through branding, engineering, and growth systems.",
- *     url: "https://sterlixit.com/about",
+ *     url: "https://sterlixit.co.uk/about",
  *   },
  * };
  *
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     title: "About Sterlixit | The People and Purpose Behind Our Work",
     description:
       "Sterlixit was built to deliver expert digital solutions, real software, and long-term growth partnerships. Meet the founders and learn how we operate.",
-    url: "https://sterlixit.com/about",
+    url: "https://sterlixit.co.uk/about",
   },
 };
 

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import { publicIntegrationConfig } from "@/lib/integrations";
-// @ts-expect-error Next.js handles CSS imports at build time.
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const siteUrl = "https://sterlixit.com";
-const defaultTitle = "Sterlixit | Fintech-Grade Digital Growth Engine";
+const siteUrl = "https://sterlixit.co.uk";
+const defaultTitle = "Sterlixit | Strategy-First Digital Growth Company";
 const defaultDescription =
   "Sterlixit helps brands scale with strategy-first branding, web development, SaaS product engineering, and conversion-focused digital marketing.";
 
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     locale: "en_GB",
     images: [
       {
-        url: "/placeholder.jpg",
+        url: "/opengraph-image.jpg",
         width: 1200,
         height: 630,
         alt: "Sterlixit digital growth engine preview",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     site: "@sterlixit",
     title: defaultTitle,
     description: defaultDescription,
-    images: ["/placeholder.jpg"],
+    images: ["/opengraph-image.jpg"],
     creator: "@sterlixit",
   },
   icons: {
@@ -118,7 +118,7 @@ export default function RootLayout({
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
-      email: "sales@sterlixit.com",
+      email: "sales@sterlixit.co.uk",
       telephone: "020-8004-3327",
       availableLanguage: ["en"],
     },
@@ -160,15 +160,16 @@ export default function RootLayout({
         </Script>
 
         {process.env.NEXT_PUBLIC_GTM_ID ? (
-          <Script id="gtm-loader" strategy="afterInteractive">
-            {`
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
-            `}
-          </Script>
+          // <Script id="gtm-loader" strategy="afterInteractive">
+          //   {`
+          //     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          //     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          //     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          //     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          //     })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
+          //   `}
+          // </Script>
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
         ) : null}
 
         {process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ? (

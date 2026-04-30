@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Sterlixit Business Presentation",
     description:
       "A presentation-ready overview of Sterlixit capabilities, leadership, and delivery outcomes.",
-    url: "https://sterlixit.com/business-presentation",
+    url: "https://sterlixit.co.uk/business-presentation",
   },
 };
 

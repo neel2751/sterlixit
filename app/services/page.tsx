@@ -29,7 +29,7 @@
  *     title: "Our Services | Sterlixit",
  *     description:
  *       "End-to-end digital services covering branding, web development, digital marketing, SaaS engineering, and support-all from one trusted growth partner.",
- *     url: "https://sterlixit.com/services",
+ *     url: "https://sterlixit.co.uk/services",
  *   },
  * };
  *
@@ -157,7 +157,7 @@ export const metadata: Metadata = {
     title: "Services | Sterlixit",
     description:
       "From brand identity to complex SaaS platforms, Sterlixit provides complete technology solutions with enterprise-grade delivery standards and founder-level execution.",
-    url: "https://sterlixit.com/services",
+    url: "https://sterlixit.co.uk/services",
   },
 };
 

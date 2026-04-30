@@ -190,7 +190,7 @@ export async function generateMetadata({
       description: industry
         ? `Sterlixit delivers tailored digital strategy and execution for the ${industry.title.toLowerCase()} sector.`
         : "Industry-specific digital strategies and execution from Sterlixit.",
-      url: `https://sterlixit.com/industries/${slug}`,
+      url: `https://sterlixit.co.uk/industries/${slug}`,
     },
   };
 }

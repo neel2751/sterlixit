@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Client Testimonials | Sterlixit",
     description:
       "Read what clients say about working with Sterlixit. Real feedback from businesses that grew through our design, development, and growth marketing services.",
-    url: "https://sterlixit.com/testimonials",
+    url: "https://sterlixit.co.uk/testimonials",
   },
 };
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Partners & Technologies | Sterlixit",
     description:
       "Explore the platforms, technologies, and partner ecosystems Sterlixit uses to build scalable websites, products, and growth systems.",
-    url: "https://sterlixit.com/partners-technologies",
+    url: "https://sterlixit.co.uk/partners-technologies",
   },
 };
 

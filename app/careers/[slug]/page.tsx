@@ -39,7 +39,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${role.title} | Careers | Sterlixit`,
       description: `${role.title} role at Sterlixit. ${role.summary}`,
-      url: `https://sterlixit.com/careers/${role.slug}`,
+      url: `https://sterlixit.co.uk/careers/${role.slug}`,
     },
   };
 }
@@ -67,14 +67,14 @@ export default async function CareerDetailPage({
     hiringOrganization: {
       "@type": "Organization",
       name: "Sterlixit",
-      sameAs: "https://sterlixit.com",
-      logo: "https://sterlixit.com/sterlixit.svg",
+      sameAs: "https://sterlixit.co.uk",
+      logo: "https://sterlixit.co.uk/sterlixit.svg",
     },
     applicantLocationRequirements: {
       "@type": "Country",
       name: "India",
     },
-    url: `https://sterlixit.com/careers/${role.slug}`,
+    url: `https://sterlixit.co.uk/careers/${role.slug}`,
     datePosted: "2026-04-06",
     validThrough: "2026-12-31",
   };
@@ -235,7 +235,9 @@ export default async function CareerDetailPage({
                     roleSlug={role.slug}
                   />
                   <Button asChild variant="outline">
-                    <Link href="mailto:hello@sterlixit.com">Email Your CV</Link>
+                    <Link href="mailto:hello@sterlixit.co.uk">
+                      Email Your CV
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>

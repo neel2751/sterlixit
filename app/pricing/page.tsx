@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "Investment Models | Sterlixit",
     description:
       "ROI-first digital investment models spanning launch builds, growth retainers, and dedicated product teams.",
-    url: "https://sterlixit.com/pricing",
+    url: "https://sterlixit.co.uk/pricing",
   },
 };
 

@@ -1,13 +1,13 @@
 export const publicIntegrationConfig = {
   liveChatProvider: process.env.NEXT_PUBLIC_LIVE_CHAT_PROVIDER ?? "custom",
   contactPageEmail:
-    process.env.NEXT_PUBLIC_CONTACT_PAGE_EMAIL ?? "hello@sterlixit.com",
+    process.env.NEXT_PUBLIC_CONTACT_PAGE_EMAIL ?? "hello@sterlixit.co.uk",
   contactPagePhone:
     process.env.NEXT_PUBLIC_CONTACT_PAGE_PHONE ?? "+44 20 8004 3327",
   contactPageAddress:
     process.env.NEXT_PUBLIC_CONTACT_PAGE_ADDRESS ??
     "595a Cranbrook Road, Gants Hill, London, IG2 6JZ, United Kingdom",
-  footerEmail: process.env.NEXT_PUBLIC_FOOTER_EMAIL ?? "hello@sterlixit.com",
+  footerEmail: process.env.NEXT_PUBLIC_FOOTER_EMAIL ?? "hello@sterlixit.co.uk",
   footerPhone: process.env.NEXT_PUBLIC_FOOTER_PHONE ?? "+44 20 8004 3327",
   footerAddress:
     process.env.NEXT_PUBLIC_FOOTER_ADDRESS ??

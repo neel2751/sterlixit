@@ -1919,7 +1919,7 @@ export async function generateMetadata({
         blueprint?.seoDescription ??
         service?.summary ??
         "Explore Sterlixit specialist digital services designed to drive brand growth, web performance, and revenue outcomes.",
-      url: `https://sterlixit.com/services/${slug}`,
+      url: `https://sterlixit.co.uk/services/${slug}`,
     },
   };
 }

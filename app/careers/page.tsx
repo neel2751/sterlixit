@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Careers | Sterlixit",
     description:
       "Join the Sterlixit team. We are a remote-friendly, outcome-oriented digital agency looking for designers, developers, marketers, and strategists with a growth mindset.",
-    url: "https://sterlixit.com/careers",
+    url: "https://sterlixit.co.uk/careers",
   },
 };
 
@@ -197,10 +197,10 @@ export default function CareersPage() {
                 <p className="mt-2 text-xs text-muted-foreground">
                   Prefer email? Send CV and portfolio to{" "}
                   <Link
-                    href="mailto:hello@sterlixit.com"
+                    href="mailto:hello@sterlixit.co.uk"
                     className="text-primary"
                   >
-                    hello@sterlixit.com
+                    hello@sterlixit.co.uk
                   </Link>
                   .
                 </p>

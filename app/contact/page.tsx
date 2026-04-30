@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Contact Us | Sterlixit",
     description:
       "Get in touch with the Sterlixit team. Share your goals and we will map a practical, milestone-based plan around your timeline and budget.",
-    url: "https://sterlixit.com/contact",
+    url: "https://sterlixit.co.uk/contact",
   },
 };
 

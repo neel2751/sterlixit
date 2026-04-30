@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Blog & Insights | Sterlixit",
     description:
       "Practical playbooks on branding, web design, digital marketing, and SaaS growth written by the Sterlixit strategy team.",
-    url: "https://sterlixit.com/blog",
+    url: "https://sterlixit.co.uk/blog",
   },
 };
 

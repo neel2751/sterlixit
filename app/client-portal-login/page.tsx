@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "Client Portal Login | Sterlixit",
     description:
       "Access the Sterlixit client portal for project updates, support workflows, ticket tracking, billing visibility, and delivery communication in one secure workspace.",
-    url: "https://sterlixit.com/client-portal-login",
+    url: "https://sterlixit.co.uk/client-portal-login",
   },
 };
 

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Book a Free Strategy Call | Sterlixit",
     description:
       "Book a complimentary 30-minute strategy call with the Sterlixit team. Share your goals and leave with a practical, milestone-based action plan.",
-    url: "https://sterlixit.com/book-free-strategy-call",
+    url: "https://sterlixit.co.uk/book-free-strategy-call",
   },
 };
 

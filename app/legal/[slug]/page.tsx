@@ -54,7 +54,7 @@ const policySections = [
     points: [
       "You may request access, correction, or deletion of personal information we hold, subject to legal and contractual obligations.",
       "You can opt out of non-essential marketing communication at any time via unsubscribe options or direct request.",
-      "To exercise privacy rights, contact us at hello@sterlixit.com and include sufficient detail to verify your request.",
+      "To exercise privacy rights, contact us at hello@sterlixit.co.uk and include sufficient detail to verify your request.",
     ],
   },
 ];
@@ -146,7 +146,7 @@ const refundSections = [
   {
     title: "How to Request a Review",
     points: [
-      "Send refund requests to hello@sterlixit.com with project name, invoice reference, and reason for the request.",
+      "Send refund requests to hello@sterlixit.co.uk with project name, invoice reference, and reason for the request.",
       "Our operations team reviews requests against contract scope, delivered milestones, and payment records.",
       "Decisions and any approved refund timelines are communicated in writing after internal review.",
     ],
@@ -308,7 +308,7 @@ export async function generateMetadata({
                 : isNda
                   ? "NDA terms describing confidentiality obligations for business, product, and technical information shared with Sterlixit."
                   : `${legal?.title ?? "Legal information"} for Sterlixit services and platform usage.`,
-      url: `https://sterlixit.com/legal/${slug}`,
+      url: `https://sterlixit.co.uk/legal/${slug}`,
     },
   };
 }
@@ -411,8 +411,8 @@ function PrivacyPolicyPage() {
                 <Link href="/contact">Contact Privacy Team</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="mailto:hello@sterlixit.com">
-                  hello@sterlixit.com
+                <Link href="mailto:hello@sterlixit.co.uk">
+                  hello@sterlixit.co.uk
                 </Link>
               </Button>
             </div>
@@ -528,8 +528,8 @@ function TermsAndConditionsPage() {
                 <Link href="/contact">Contact Legal Operations</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="mailto:hello@sterlixit.com">
-                  hello@sterlixit.com
+                <Link href="mailto:hello@sterlixit.co.uk">
+                  hello@sterlixit.co.uk
                 </Link>
               </Button>
             </div>
@@ -643,8 +643,8 @@ function RefundPolicyPage() {
                 <Link href="/contact">Contact Billing Team</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="mailto:hello@sterlixit.com">
-                  hello@sterlixit.com
+                <Link href="mailto:hello@sterlixit.co.uk">
+                  hello@sterlixit.co.uk
                 </Link>
               </Button>
             </div>

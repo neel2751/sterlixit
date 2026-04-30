@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "AI Visibility Checklist | Sterlixit",
     description:
       "A practical weekly checklist to improve discoverability and citation rates across major AI assistants.",
-    url: "https://sterlixit.com/ai-visibility-checklist",
+    url: "https://sterlixit.co.uk/ai-visibility-checklist",
   },
 };
 

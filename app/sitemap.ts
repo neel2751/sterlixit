@@ -8,7 +8,7 @@ import {
   portfolioItems,
 } from "@/lib/site-data";
 
-const siteUrl = "https://sterlixit.com";
+const siteUrl = "https://sterlixit.co.uk";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [

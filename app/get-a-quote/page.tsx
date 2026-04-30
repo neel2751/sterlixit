@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Get a Quote | Sterlixit",
     description:
       "Get a tailored project quote from Sterlixit for branding, web design, SaaS, or growth work. Share your requirements, timeline, and goals to receive a focused estimate.",
-    url: "https://sterlixit.com/get-a-quote",
+    url: "https://sterlixit.co.uk/get-a-quote",
   },
 };
 

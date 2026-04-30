@@ -24,7 +24,7 @@ export async function generateMetadata({
       description:
         post?.excerpt ??
         "Insights and growth playbooks from the Sterlixit team.",
-      url: `https://sterlixit.com/blog/${slug}`,
+      url: `https://sterlixit.co.uk/blog/${slug}`,
     },
   };
 }

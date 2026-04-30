@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Free Resources & Audits | Sterlixit",
     description:
       "Download free growth audits, website diagnostics, and conversion playbooks from Sterlixit. Practical tools to help teams diagnose bottlenecks and accelerate results.",
-    url: "https://sterlixit.com/resources",
+    url: "https://sterlixit.co.uk/resources",
   },
 };
 

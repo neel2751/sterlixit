@@ -11,7 +11,7 @@ export async function GET(req) {
       grant_type: "authorization_code",
       client_id: process.env.ZOHO_CLIENT_ID,
       client_secret: process.env.ZOHO_CLIENT_SECRET,
-      redirect_uri: "http://localhost:3000/api/zoho/callback",
+      redirect_uri: "https://sterlixit.co.uk/api/zoho/callback",
       code,
     }),
   });

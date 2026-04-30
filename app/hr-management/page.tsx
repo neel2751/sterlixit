@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Sterlix HR Management Software | Multi-Branch HR Platform",
     description:
       "The HR ecosystem built for scale, security, and operational clarity across branches and departments.",
-    url: "https://sterlixit.com/hr-management",
+    url: "https://sterlixit.co.uk/hr-management",
     type: "website",
     locale: "en_GB",
     images: [
@@ -51,7 +51,7 @@ const softwareSchema = {
   operatingSystem: "Web",
   description:
     "Enterprise HR management software for multi-branch operations, attendance, rota planning, leave workflows, compliance, and security.",
-  url: "https://sterlixit.com/hr-management",
+  url: "https://sterlixit.co.uk/hr-management",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -61,7 +61,7 @@ const softwareSchema = {
   creator: {
     "@type": "Organization",
     name: "Sterlix IT",
-    url: "https://sterlixit.com",
+    url: "https://sterlixit.co.uk",
   },
 };
 

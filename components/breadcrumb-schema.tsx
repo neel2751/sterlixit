@@ -1,4 +1,4 @@
-const siteUrl = "https://sterlixit.com";
+const siteUrl = "https://sterlixit.co.uk";
 
 export function BreadcrumbSchema({
   items,

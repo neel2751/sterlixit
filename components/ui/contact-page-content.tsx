@@ -30,6 +30,7 @@ import {
   SiteHeader,
 } from "@/components/site-shell";
 import CalForm from "../schedule-form";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 // ── DATA ───────────────────────────────────────────────────────────
 
@@ -269,6 +270,11 @@ function SmartContactForm() {
     });
     setIsSubmitting(false);
     setSubmitted(true);
+    sendGTMEvent({
+      event: "form_submission",
+      form_name: "contact_us",
+      category: "lead_generation",
+    });
   };
 
   const STEPS = [
