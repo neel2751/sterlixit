@@ -371,7 +371,7 @@ export function SiteFooter() {
             >
               <Image
                 src="/sterlixit.svg"
-                alt="Sterlixit"
+                alt="Sterlixit digital growth agency logo"
                 width={156}
                 height={32}
                 className="h-14 w-auto"

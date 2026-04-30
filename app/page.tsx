@@ -761,7 +761,7 @@ export default function HomePage() {
             <div>
               <div className="mb-10 flex flex-col items-start justify-between gap-5 md:mb-12 md:flex-row md:items-center md:gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary/70">
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary">
                     Proven Framework
                   </p>
                   <h2 className="mt-2 max-w-md text-[1.85rem] font-bold tracking-tight leading-[1.1] sm:text-4xl md:text-4xl">
@@ -1018,7 +1018,7 @@ export default function HomePage() {
         <SiteContainer>
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-primary/80">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary">
                 Case Studies
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl">
