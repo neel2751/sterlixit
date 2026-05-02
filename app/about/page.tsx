@@ -290,7 +290,7 @@ export default function AboutPage() {
             <AnimatedReveal delay={0.1} instant>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                 A Decade of Tech Expertise.{" "}
-                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                <span className="bg-[linear-gradient(to-right,rgba(79,70,229,1)_0%,rgba(79,70,229,0.7)_100%)] bg-clip-text text-transparent">
                   A New Era of Business Innovation.
                 </span>
               </h1>
@@ -311,7 +311,7 @@ export default function AboutPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_14px_36px_rgba(79,70,229,0.45)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_14px_36px_rgba(79,70,229,0.45)]"
                 >
                   <Link href="/contact">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-52" />
@@ -406,7 +406,7 @@ export default function AboutPage() {
 
             {/* Right: visual timeline */}
             <AnimatedReveal delay={0.15}>
-              <div className="relative rounded-3xl border border-border/60 bg-gradient-to-br from-primary/8 to-transparent p-8 shadow-[0_22px_64px_rgba(79,70,229,0.08)]">
+              <div className="relative rounded-3xl border border-border/60 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-8 shadow-[0_22px_64px_rgba(79,70,229,0.08)]">
                 <div className="pointer-events-none absolute right-6 top-6 size-28 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(79,70,229,0.18)_0%,transparent_70%)]" />
                 <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Our Timeline
@@ -443,7 +443,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 3. NUMBERS OF TRUST ────────────────────────────────────────── */}
-      <section id="our-numbers" className="py-20 md:py-28 bg-primary/[0.025]">
+      <section id="our-numbers" className="py-20 md:py-28 bg-primary/2.5">
         <SiteContainer>
           <AnimatedReveal>
             <div className="mb-12 text-center">
@@ -465,7 +465,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
             {aboutStats.map((stat, i) => (
               <AnimatedReveal key={i} delay={i * 0.08}>
-                <div className="group flex h-full flex-col items-center rounded-3xl border border-border/60 bg-gradient-to-br from-primary/10 to-transparent p-6 text-center shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_48px_rgba(79,70,229,0.12)] md:p-8">
+                <div className="group flex h-full flex-col items-center rounded-3xl border border-border/60 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-6 text-center shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_48px_rgba(79,70,229,0.12)] md:p-8">
                   <div className="mb-4 flex size-12 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">
                     <stat.icon className="size-5 text-primary" />
                   </div>
@@ -508,10 +508,10 @@ export default function AboutPage() {
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
             {founders.map((founder, i) => (
               <AnimatedReveal key={i} delay={i * 0.12} hover>
-                <div className="group h-full rounded-3xl border border-border/60 bg-gradient-to-br from-primary/8 to-transparent p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_22px_64px_rgba(79,70,229,0.12)]">
+                <div className="group h-full rounded-3xl border border-border/60 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_22px_64px_rgba(79,70,229,0.12)]">
                   <div className="flex items-start gap-5">
                     {/* Avatar placeholder — replace with <Image> when photos are available */}
-                    <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/20 to-primary/5 text-xl font-bold text-primary">
+                    <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl border border-primary/25 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.2)_0%,rgba(79,70,229,0.05)_100%)] text-xl font-bold text-primary">
                       {founder.initials}
                     </div>
                     <div>
@@ -548,7 +548,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 5. PRODUCT ECOSYSTEM (SaaS Lab) ────────────────────────────── */}
-      <section id="saas-lab" className="py-20 md:py-28 bg-primary/[0.025]">
+      <section id="saas-lab" className="py-20 md:py-28 bg-primary/2.5">
         <SiteContainer>
           <AnimatedReveal>
             <div className="mb-12 text-center">
@@ -573,7 +573,7 @@ export default function AboutPage() {
             {products.map((product, i) => (
               <AnimatedReveal key={i} delay={i * 0.1} hover>
                 <div
-                  className={`group flex h-full flex-col rounded-3xl border ${product.borderColor} bg-gradient-to-br ${product.colorGradient} p-8 shadow-sm transition-all duration-300 hover:shadow-[0_22px_64px_rgba(79,70,229,0.1)]`}
+                  className={`group flex h-full flex-col rounded-3xl border ${product.borderColor} bg-[linear-gradient(to-bottom-right,${product.colorGradient})] p-8 shadow-sm transition-all duration-300 hover:shadow-[0_22px_64px_rgba(79,70,229,0.1)]`}
                 >
                   <div className="mb-6 flex items-start justify-between">
                     <div
@@ -631,7 +631,7 @@ export default function AboutPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {methodology.map((item, i) => (
               <AnimatedReveal key={i} delay={i * 0.1}>
-                <div className="group flex h-full flex-col rounded-3xl border border-border/60 bg-gradient-to-br from-primary/8 to-transparent p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_48px_rgba(79,70,229,0.12)]">
+                <div className="group flex h-full flex-col rounded-3xl border border-border/60 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-8 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_48px_rgba(79,70,229,0.12)]">
                   <div className="mb-5 flex size-12 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10">
                     <item.icon className="size-5 text-primary" />
                   </div>
@@ -654,10 +654,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 7. MODERN ADVANTAGE ────────────────────────────────────────── */}
-      <section
-        id="modern-advantage"
-        className="py-20 md:py-28 bg-primary/[0.025]"
-      >
+      <section id="modern-advantage" className="py-20 md:py-28 bg-primary/2.5">
         <SiteContainer>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <AnimatedReveal delay={0}>
@@ -680,7 +677,7 @@ export default function AboutPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-7 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.30)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-7 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.30)]"
                 >
                   <Link href="/contact">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-48" />
@@ -694,7 +691,7 @@ export default function AboutPage() {
             <div className="space-y-4">
               {modernAdvantages.map((adv, i) => (
                 <AnimatedReveal key={i} delay={0.1 + i * 0.1}>
-                  <div className="flex gap-5 rounded-2xl border border-border/60 bg-background/80 p-6 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_12px_36px_rgba(79,70,229,0.1)]">
+                  <div className="flex gap-5 rounded-2xl border border-border/60 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-6 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_12px_36px_rgba(79,70,229,0.1)]">
                     <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
                       <adv.icon className="size-5 text-primary" />
                     </div>
@@ -722,7 +719,7 @@ export default function AboutPage() {
 
         <SiteContainer>
           <AnimatedReveal>
-            <div className="mx-auto max-w-3xl rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/12 to-transparent p-10 text-center shadow-[0_32px_80px_rgba(79,70,229,0.13)] md:p-16">
+            <div className="mx-auto max-w-3xl rounded-3xl border border-primary/20 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.12)_0%,rgba(79,70,229,0.0)_100%)] p-10 text-center shadow-[0_32px_80px_rgba(79,70,229,0.13)] md:p-16">
               <div className="mb-5 inline-flex size-16 items-center justify-center rounded-2xl border border-primary/25 bg-primary/10">
                 <Building2 className="size-7 text-primary" />
               </div>
@@ -740,7 +737,7 @@ export default function AboutPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-10 py-6 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_14px_36px_rgba(79,70,229,0.50)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-10 py-6 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_14px_36px_rgba(79,70,229,0.50)]"
                 >
                   <Link href="/contact">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-56" />

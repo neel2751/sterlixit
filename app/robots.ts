@@ -28,6 +28,5 @@ export default function robots(): MetadataRoute.Robots {
     ],
     // llms.txt is served from /public/llms.txt and discovered by crawlers.
     sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
   };
 }

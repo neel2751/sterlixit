@@ -234,7 +234,7 @@ export default function IndustriesPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
                 >
                   <Link href="/contact">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-52" />
@@ -313,7 +313,7 @@ export default function IndustriesPage() {
 
                   <AnimatedReveal delay={0.08}>
                     <div
-                      className={`relative overflow-hidden rounded-[2rem] border border-primary/18 bg-gradient-to-br ${pillar.accent} p-8 shadow-[0_20px_56px_rgba(79,70,229,0.1)] md:p-10`}
+                      className={`relative overflow-hidden rounded-4xl border border-primary/18 bg-[linear-gradient(to-bottom-right,rgba(79,70,229,0.1)_0%,rgba(79,70,229,0.06)_40%,rgba(255,255,255,0.92)_100%)] p-8 shadow-[0_20px_56px_rgba(79,70,229,0.1)] md:p-10`}
                     >
                       <div className="pointer-events-none absolute -right-8 top-0 text-[7rem] font-semibold leading-none text-primary/8 md:text-[9rem]">
                         {pillar.chapter}
@@ -354,7 +354,7 @@ export default function IndustriesPage() {
         </SiteContainer>
       </section>
 
-      <section className="bg-primary/[0.03] py-20 md:py-24">
+      <section className="bg-primary/3 py-20 md:py-24">
         <SiteContainer>
           <AnimatedReveal>
             <div className="mb-12 text-center">
@@ -381,7 +381,7 @@ export default function IndustriesPage() {
                   className={`grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-14 ${isReversed ? "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : ""}`}
                 >
                   <AnimatedReveal delay={index * 0.04}>
-                    <div className="relative overflow-hidden rounded-[2rem] border border-primary/18 bg-[linear-gradient(155deg,rgba(79,70,229,0.16)_0%,rgba(79,70,229,0.05)_46%,rgba(255,255,255,0.94)_100%)] p-8 shadow-[0_20px_56px_rgba(79,70,229,0.08)] md:p-10">
+                    <div className="relative overflow-hidden rounded-4xl border border-primary/18 bg-[linear-gradient(155deg,rgba(79,70,229,0.16)_0%,rgba(79,70,229,0.05)_46%,rgba(255,255,255,0.94)_100%)] p-8 shadow-[0_20px_56px_rgba(79,70,229,0.08)] md:p-10">
                       <div className="pointer-events-none absolute -right-6 -top-8 text-[6.5rem] font-semibold leading-none text-primary/8 md:text-[8rem]">
                         {String(index + 1).padStart(2, "0")}
                       </div>
@@ -399,7 +399,7 @@ export default function IndustriesPage() {
                           {item.chips.map((chip) => (
                             <div
                               key={chip}
-                              className="rounded-full border border-primary/15 bg-background/72 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground"
+                              className="rounded-full border border-primary/15 bg-background/72 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
                             >
                               {chip}
                             </div>
@@ -444,7 +444,7 @@ export default function IndustriesPage() {
       <section className="py-20 md:py-24">
         <SiteContainer>
           <AnimatedReveal>
-            <div className="mx-auto max-w-5xl rounded-[2rem] border border-primary/20 bg-[linear-gradient(145deg,rgba(79,70,229,0.16)_0%,rgba(79,70,229,0.04)_42%,rgba(255,255,255,0.95)_100%)] p-10 text-center shadow-[0_28px_74px_rgba(79,70,229,0.14)] md:p-12">
+            <div className="mx-auto max-w-5xl rounded-4xl border border-primary/20 bg-[linear-gradient(145deg,rgba(79,70,229,0.16)_0%,rgba(79,70,229,0.04)_42%,rgba(255,255,255,0.95)_100%)] p-10 text-center shadow-[0_28px_74px_rgba(79,70,229,0.14)] md:p-12">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary">
                 <ShieldCheck className="size-3.5" />
                 Experience Proof
@@ -474,7 +474,7 @@ export default function IndustriesPage() {
         </SiteContainer>
       </section>
 
-      <section className="bg-primary/[0.03] py-20 md:py-24">
+      <section className="bg-primary/3 py-20 md:py-24">
         <SiteContainer>
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
             <AnimatedReveal>
@@ -564,7 +564,7 @@ export default function IndustriesPage() {
       <section className="pb-20 md:pb-24">
         <SiteContainer>
           <AnimatedReveal>
-            <div className="mx-auto max-w-5xl rounded-[2rem] border border-primary/25 bg-gradient-to-r from-primary/14 via-primary/7 to-transparent p-8 text-center shadow-[0_20px_56px_rgba(79,70,229,0.1)] md:p-10">
+            <div className="mx-auto max-w-5xl rounded-4xl border border-primary/25 bg-[linear-gradient(to-right,rgba(79,70,229,0.14)_0%,rgba(79,70,229,0.07)_100%)] p-8 text-center shadow-[0_20px_56px_rgba(79,70,229,0.1)] md:p-10">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
                 Need an Industry-Aware Digital Partner?
               </h2>
@@ -577,7 +577,7 @@ export default function IndustriesPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
                 >
                   <Link href="/contact">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-52" />

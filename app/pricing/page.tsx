@@ -151,7 +151,7 @@ export default function PricingPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
                 >
                   <Link href="#discovery-call">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-52" />

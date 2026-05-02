@@ -132,10 +132,10 @@ import {
   Rocket,
   ShieldCheck,
   Sparkles,
-  Users,
-  Workflow,
   Wrench,
+  Workflow,
 } from "lucide-react";
+import type { CSSProperties } from "react";
 import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
 import { Button } from "@/components/ui/button";
 import {
@@ -272,6 +272,21 @@ const engagementHighlights = [
   },
 ];
 
+const heroRibbon = [
+  "Brand systems",
+  "Web builds",
+  "Growth ops",
+  "SaaS delivery",
+  "Support",
+  "Strategy",
+];
+
+const heroBadges = [
+  { label: "10+ years of delivery" },
+  { label: "5 service tracks" },
+  { label: "24/5 support coverage" },
+];
+
 export default function ServicesPage() {
   return (
     <main className="relative min-h-screen bg-background">
@@ -284,38 +299,43 @@ export default function ServicesPage() {
 
       <SiteHeader />
 
-      <section className="relative overflow-hidden py-24 md:py-32 lg:py-36">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-1/2 h-[70vh] w-[74vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(79,70,229,0.13)_0%,transparent_70%)]" />
-          <div className="absolute right-0 top-0 h-[34vh] w-[34vw] rounded-full bg-[radial-gradient(ellipse_at_top_right,rgba(79,70,229,0.08)_0%,transparent_65%)]" />
+      <section className="relative overflow-hidden bg-[linear-gradient(180deg,rgba(243,244,255,0.98)_0%,rgba(255,255,255,0.96)_46%,rgba(247,248,255,1)_100%)] py-20 md:py-28 lg:py-32">
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <div className="absolute inset-x-0 top-0 h-[48vh] bg-[linear-gradient(180deg,rgba(79,70,229,0.18)_0%,rgba(255,255,255,0)_76%)]" />
+          <div className="absolute left-1/2 top-[42%] h-[62vh] w-[74vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(79,70,229,0.16)_0%,transparent_70%)]" />
+          <div className="absolute right-0 top-0 h-[34vh] w-[34vw] rounded-full bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.12)_0%,transparent_68%)]" />
+          <div className="absolute bottom-0 left-0 h-[26vh] w-[28vw] rounded-full bg-[radial-gradient(ellipse_at_bottom_left,rgba(79,70,229,0.1)_0%,transparent_70%)]" />
         </div>
 
         <SiteContainer>
-          <div className="mx-auto max-w-4xl text-center">
-            <AnimatedReveal instant>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-4 py-2 text-sm font-medium text-primary">
+          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
+            <AnimatedReveal>
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary backdrop-blur-sm">
                 <Boxes className="size-4" />
                 Solution-Driven Services
               </div>
             </AnimatedReveal>
-            <AnimatedReveal delay={0.08} instant>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                End-to-End Technology Solutions for Every Growth Stage.
+
+            <AnimatedReveal delay={0.08}>
+              <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-[4.8rem] lg:leading-[0.96]">
+                End-to-end technology solutions for every growth stage.
               </h1>
             </AnimatedReveal>
-            <AnimatedReveal delay={0.16} instant>
-              <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-muted-foreground md:text-xl">
-                From building your brand identity to engineering complex SaaS
-                platforms, our team of 10-year veterans provides the technical
-                backbone your business deserves.
+
+            <AnimatedReveal delay={0.16}>
+              <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 md:text-xl">
+                From launch-ready identity systems to scalable websites and
+                product engineering, we build the full digital stack with a
+                senior team that knows how to ship.
               </p>
             </AnimatedReveal>
-            <AnimatedReveal delay={0.24} instant>
+
+            <AnimatedReveal delay={0.24}>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-8 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)]"
+                  className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.9)_0%,rgba(79,70,229,0.78)_100%)] px-8 text-primary-foreground shadow-[0_14px_30px_rgba(79,70,229,0.3)]"
                 >
                   <Link href="#engagement-models">
                     <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-52" />
@@ -330,6 +350,129 @@ export default function ServicesPage() {
                 >
                   <Link href="/contact">Speak with an Expert</Link>
                 </Button>
+              </div>
+            </AnimatedReveal>
+
+            <AnimatedReveal delay={0.3}>
+              <div className="mt-8 w-full max-w-3xl overflow-hidden rounded-2xl border border-border/60 bg-background/85 p-3 shadow-[0_12px_34px_rgba(79,70,229,0.08)] backdrop-blur-sm">
+                <div
+                  className="flex items-center [--gap:0.75rem]"
+                  style={
+                    { "--duration": "28s", "--gap": "0.75rem" } as CSSProperties
+                  }
+                >
+                  <div className="flex w-max shrink-0 items-center gap-3 animate-marquee group-hover:paused">
+                    {heroRibbon.map((item) => (
+                      <div
+                        key={item}
+                        className="rounded-full border border-border/60 bg-secondary/40 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="flex w-max shrink-0 items-center gap-3 animate-marquee group-hover:paused"
+                  >
+                    {heroRibbon.map((item) => (
+                      <div
+                        key={`${item}-clone`}
+                        className="rounded-full border border-border/60 bg-secondary/40 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedReveal>
+
+            <AnimatedReveal delay={0.36}>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
+                {heroBadges.map((item) => (
+                  <span
+                    key={item.label}
+                    className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/85 px-3 py-1.5 shadow-sm"
+                  >
+                    <span className="size-2 rounded-full bg-primary shadow-[0_0_0_8px_rgba(79,70,229,0.12)]" />
+                    {item.label}
+                  </span>
+                ))}
+              </div>
+            </AnimatedReveal>
+          </div>
+        </SiteContainer>
+      </section>
+
+      {/* Marquee text banner — Awake-style */}
+
+      <section
+        id="service-numbers"
+        className="relative overflow-hidden py-20 md:py-28"
+      >
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-x-0 top-0 h-[48vh] bg-[linear-gradient(180deg,rgba(79,70,229,0.08)_0%,rgba(255,255,255,0)_75%)]" />
+          <div className="absolute left-1/2 top-1/2 h-[62vh] w-[76vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(79,70,229,0.12)_0%,transparent_72%)]" />
+          <div className="absolute bottom-0 right-0 h-[28vh] w-[28vw] rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.08)_0%,transparent_72%)]" />
+        </div>
+
+        <SiteContainer>
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+            {/* Left — headline */}
+            <AnimatedReveal>
+              <h2 className="text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-[3.4rem]">
+                Crafting digital experiences that drive real business outcomes.
+              </h2>
+            </AnimatedReveal>
+
+            {/* Right — rotating words + stat counters */}
+            <AnimatedReveal delay={0.12}>
+              <div>
+                {/* Rotating words */}
+                <div
+                  className="relative h-[1.2em] overflow-hidden"
+                  style={{ fontSize: "clamp(2.8rem, 6vw, 4.5rem)" }}
+                >
+                  {["Creativity", "Innovation", "Strategy"].map(
+                    (word, index) => (
+                      <span
+                        key={word}
+                        className="absolute inset-0 font-bold italic text-primary"
+                        style={{
+                          animation: "word-cycle 9s ease-in-out infinite",
+                          animationDelay: `${index * 3}s`,
+                          opacity: index === 0 ? 1 : 0,
+                          transform:
+                            index === 0 ? "translateY(0)" : "translateY(0.7em)",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ),
+                  )}
+                </div>
+
+                {/* Divider */}
+                <div className="mt-10 h-px w-full bg-border/60" />
+
+                {/* Stat counters */}
+                <div className="mt-8 grid grid-cols-3 gap-6">
+                  {[
+                    { value: "10", label: "Years of Experience" },
+                    { value: "23+", label: "Projects Completed" },
+                    { value: "20+", label: "Clients Satisfied" },
+                  ].map((stat) => (
+                    <div key={stat.label}>
+                      <div className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                        {stat.value}
+                      </div>
+                      <div className="mt-2 text-sm leading-5 text-muted-foreground">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </AnimatedReveal>
           </div>
@@ -384,7 +527,6 @@ export default function ServicesPage() {
               >
                 <div className="pointer-events-none absolute -right-16 -top-14 size-44 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.22)_0%,transparent_70%)]" />
                 <div className="pointer-events-none absolute -bottom-20 -left-20 size-48 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.18)_0%,transparent_70%)]" />
-
                 <div className="relative z-10 flex items-center justify-between">
                   <div className="flex size-12 items-center justify-center rounded-2xl border border-primary/30 bg-background/85">
                     <Sparkles className="size-5 text-primary" />
@@ -501,7 +643,7 @@ export default function ServicesPage() {
           </AnimatedReveal>
 
           <AnimatedReveal delay={0.08}>
-            <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/12 via-background to-primary/5 p-6 shadow-[0_20px_56px_rgba(79,70,229,0.11)] md:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-primary/25 bg-[linear-gradient(135deg,rgba(79,70,229,0.12)_0%,rgba(79,70,229,0.05)_100%)] p-6 shadow-[0_20px_56px_rgba(79,70,229,0.11)] md:p-8">
               <div className="pointer-events-none absolute -right-16 -top-16 size-52 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.16)_0%,transparent_70%)]" />
               <div className="pointer-events-none absolute -bottom-20 -left-20 size-52 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.12)_0%,transparent_70%)]" />
 
@@ -533,10 +675,7 @@ export default function ServicesPage() {
         </SiteContainer>
       </section>
 
-      <section
-        id="service-ecosystem"
-        className="bg-primary/[0.025] py-20 md:py-24"
-      >
+      <section id="service-ecosystem" className="bg-primary/2.5 py-20 md:py-24">
         <SiteContainer>
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <AnimatedReveal>
@@ -618,7 +757,7 @@ export default function ServicesPage() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {differentiators.slice(0, 6).map((item, index) => (
               <AnimatedReveal key={item.title} delay={index * 0.06}>
-                <div className="h-full rounded-2xl border border-border/60 bg-gradient-to-br from-primary/9 to-transparent p-5 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_42px_rgba(79,70,229,0.10)]">
+                <div className="h-full rounded-2xl border border-border/60 bg-[linear-gradient(145deg,rgba(79,70,229,0.1)_0%,rgba(79,70,229,0.06)_40%,rgba(255,255,255,0.92)_100%)] p-5 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-[0_16px_42px_rgba(79,70,229,0.10)]">
                   <div className="mb-3 flex size-9 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
                     <CheckCircle2 className="size-4 text-primary" />
                   </div>
@@ -641,7 +780,7 @@ export default function ServicesPage() {
         </div>
         <SiteContainer>
           <AnimatedReveal>
-            <div className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-primary/25 bg-[linear-gradient(145deg,rgba(79,70,229,0.2)_0%,rgba(79,70,229,0.06)_40%,rgba(255,255,255,0.92)_100%)] shadow-[0_34px_84px_rgba(79,70,229,0.16)] backdrop-blur">
+            <div className="mx-auto max-w-5xl overflow-hidden rounded-4xl border border-primary/25 bg-[linear-gradient(145deg,rgba(79,70,229,0.2)_0%,rgba(79,70,229,0.06)_40%,rgba(255,255,255,0.92)_100%)] shadow-[0_34px_84px_rgba(79,70,229,0.16)] backdrop-blur">
               <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="relative p-10 md:p-14">
                   <div className="pointer-events-none absolute -right-16 -top-14 size-52 rounded-full bg-[radial-gradient(circle,rgba(79,70,229,0.2)_0%,transparent_70%)]" />
@@ -661,7 +800,7 @@ export default function ServicesPage() {
                       <Button
                         asChild
                         size="lg"
-                        className="group relative overflow-hidden rounded-full border border-primary/45 bg-gradient-to-r from-primary to-primary/80 px-9 text-primary-foreground shadow-[0_14px_30px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_18px_42px_rgba(79,70,229,0.50)]"
+                        className="group relative overflow-hidden rounded-full border border-primary/45 bg-[linear-gradient(to-right,rgba(79,70,229,0.8)_0%,rgba(79,70,229,0.6)_100%)] px-9 text-primary-foreground shadow-[0_14px_30px_rgba(79,70,229,0.35)] transition-all duration-300 hover:shadow-[0_18px_42px_rgba(79,70,229,0.50)]"
                       >
                         <Link href="/contact">
                           <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-56" />
