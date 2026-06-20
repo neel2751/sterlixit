@@ -266,7 +266,9 @@ async function createZohoContactSubmission(contact: ContactSubmission) {
     baseRecord.Lead_Source = contact.source ?? "website_contact_form";
   }
 
-  await postZohoRecord(moduleName, baseRecord);
+  // Surface whether the record was actually delivered (vs. skipped because Zoho
+  // isn't configured in this environment) so callers can react.
+  return postZohoRecord(moduleName, baseRecord);
 }
 
 async function createZohoLeadCapture(lead: LeadCapture) {
@@ -302,7 +304,9 @@ async function createZohoLeadCapture(lead: LeadCapture) {
     baseRecord.Lead_Source = lead.source;
   }
 
-  await postZohoRecord(moduleName, baseRecord);
+  // Surface whether the record was actually delivered (vs. skipped because Zoho
+  // isn't configured in this environment) so callers can react.
+  return postZohoRecord(moduleName, baseRecord);
 }
 
 async function subscribeMailchimp(payload: NewsletterSubscription) {
@@ -361,7 +365,13 @@ async function subscribeMailchimp(payload: NewsletterSubscription) {
   throw new Error(`Mailchimp subscribe failed with status ${response.status}`);
 }
 
-export async function submitContactToCrm(contact: ContactSubmission) {
+export async function submitContactToCrm(contact: ContactSubmission): Promise<{
+  /** The CRM provider configured for this environment. */
+  provider: string;
+  /** True if the contact reached at least one destination (CRM provider or webhook). */
+  delivered: boolean;
+}> {
+  const provider = serverIntegrationConfig.crmProvider;
   const payload = {
     type: "contact_submission",
     submittedAt: new Date().toISOString(),
@@ -369,8 +379,10 @@ export async function submitContactToCrm(contact: ContactSubmission) {
     data: contact,
   };
 
-  if (serverIntegrationConfig.crmProvider === "hubspot") {
-    await postHubspotForm([
+  let delivered = false;
+
+  if (provider === "hubspot") {
+    const result = await postHubspotForm([
       { name: "firstname", value: contact.name },
       { name: "email", value: contact.email },
       { name: "phone", value: contact.phone },
@@ -381,20 +393,37 @@ export async function submitContactToCrm(contact: ContactSubmission) {
       { name: "message", value: contact.message ?? "" },
       { name: "lead_source", value: contact.source ?? "website_contact_form" },
     ]);
+    delivered = !result.skipped;
   }
 
-  if (serverIntegrationConfig.crmProvider === "zoho") {
-    await createZohoContactSubmission(contact);
+  if (provider === "zoho") {
+    const result = await createZohoContactSubmission(contact);
+    delivered = !result.skipped;
   }
 
-  await postJsonWebhook(serverIntegrationConfig.crmWebhookUrl, payload).catch(
-    (error) => {
-      console.warn("CRM webhook failed for contact submission", error);
-    },
-  );
+  // The webhook is an independent backstop — a successful post counts as the
+  // contact reaching a destination even if no CRM provider is configured.
+  const webhookResult = await postJsonWebhook(
+    serverIntegrationConfig.crmWebhookUrl,
+    payload,
+  ).catch((error) => {
+    console.warn("CRM webhook failed for contact submission", error);
+    return { skipped: true as const };
+  });
+  if (!webhookResult.skipped) {
+    delivered = true;
+  }
+
+  return { provider, delivered };
 }
 
-export async function submitLeadToCrm(lead: LeadCapture) {
+export async function submitLeadToCrm(lead: LeadCapture): Promise<{
+  /** The CRM provider configured for this environment. */
+  provider: string;
+  /** True if the lead reached at least one destination (CRM provider or webhook). */
+  delivered: boolean;
+}> {
+  const provider = serverIntegrationConfig.crmProvider;
   const payload = {
     type: "lead_magnet_request",
     submittedAt: new Date().toISOString(),
@@ -402,7 +431,9 @@ export async function submitLeadToCrm(lead: LeadCapture) {
     data: lead,
   };
 
-  if (serverIntegrationConfig.crmProvider === "hubspot") {
+  let delivered = false;
+
+  if (provider === "hubspot") {
     const fields = [
       { name: "email", value: lead.email },
       { name: "lead_source", value: lead.source },
@@ -412,18 +443,29 @@ export async function submitLeadToCrm(lead: LeadCapture) {
       { name: "message", value: lead.message ?? "" },
     ];
 
-    await postHubspotForm(fields);
+    const result = await postHubspotForm(fields);
+    delivered = !result.skipped;
   }
 
-  if (serverIntegrationConfig.crmProvider === "zoho") {
-    await createZohoLeadCapture(lead);
+  if (provider === "zoho") {
+    const result = await createZohoLeadCapture(lead);
+    delivered = !result.skipped;
   }
 
-  await postJsonWebhook(serverIntegrationConfig.leadWebhookUrl, payload).catch(
-    (error) => {
-      console.warn("Lead webhook failed", error);
-    },
-  );
+  // The webhook is an independent backstop — a successful post counts as the
+  // lead reaching a destination even if no CRM provider is configured.
+  const webhookResult = await postJsonWebhook(
+    serverIntegrationConfig.leadWebhookUrl,
+    payload,
+  ).catch((error) => {
+    console.warn("Lead webhook failed", error);
+    return { skipped: true as const };
+  });
+  if (!webhookResult.skipped) {
+    delivered = true;
+  }
+
+  return { provider, delivered };
 }
 
 export async function subscribeToNewsletter(

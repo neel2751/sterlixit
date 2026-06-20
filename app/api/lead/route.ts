@@ -20,16 +20,33 @@ export async function POST(request: Request) {
       crmProvider: process.env.CRM_PROVIDER ?? "not-configured",
     });
 
-    await submitLeadToCrm({
+    // The CRM (or webhook backstop) is the only destination for this lead, so
+    // only report success if the lead actually reached one of them — otherwise
+    // the visitor sees "captured" while the lead is silently lost.
+    const delivered = await submitLeadToCrm({
       resource,
       email,
       source: source ?? "resources_page",
       name,
       company,
       message,
-    }).catch((error) => {
-      console.warn("Lead CRM integration failed", error);
-    });
+    }).then(
+      (result) => result.delivered,
+      (error) => {
+        console.error("Lead CRM integration failed", error);
+        return false;
+      },
+    );
+
+    if (!delivered) {
+      console.error(
+        "Lead: submission reached no destination — no CRM provider configured and no LEAD_WEBHOOK_URL set.",
+      );
+      return NextResponse.json(
+        { error: "We couldn't capture your request. Please try again shortly." },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json(
       {

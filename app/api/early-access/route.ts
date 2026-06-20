@@ -70,7 +70,11 @@ export async function POST(request: Request) {
     // Mailchimp (tagged "Early Access" + "PropManage") and Zoho CRM (Company =
     // "Sterlix IT Ltd", Service = "PropManage") run independently — a failure in
     // one must not drop the lead from the other.
-    const results = await Promise.allSettled([
+    // Mailchimp (marketing) is best-effort, but Zoho CRM is the system of record
+    // for early-access leads. We only report success once the lead has actually
+    // reached the CRM — otherwise the visitor sees a success screen while the
+    // lead silently vanishes.
+    const [newsletterResult, crmResult] = await Promise.allSettled([
       subscribeToNewsletter({ email, name, source: SOURCE, tags: TAGS }),
       submitLeadToCrm({
         resource: "PropManage Early Access",
@@ -84,23 +88,29 @@ export async function POST(request: Request) {
       }),
     ]);
 
-    const failures = results.filter((result) => result.status === "rejected");
-
-    if (failures.length === results.length) {
-      console.error(
-        "Early access: all integrations failed",
-        failures.map((failure) => (failure as PromiseRejectedResult).reason),
+    if (newsletterResult.status === "rejected") {
+      console.warn(
+        "Early access: newsletter signup failed",
+        newsletterResult.reason,
       );
+    }
+
+    if (crmResult.status === "rejected") {
+      console.error("Early access: CRM submission failed", crmResult.reason);
       return NextResponse.json(
-        { error: "Failed to register early access" },
+        { error: "We couldn't register your details. Please try again shortly." },
         { status: 502 },
       );
     }
 
-    if (failures.length > 0) {
-      console.warn(
-        "Early access: partial integration failure",
-        failures.map((failure) => (failure as PromiseRejectedResult).reason),
+    if (!crmResult.value.delivered) {
+      console.error(
+        `Early access: CRM submission was skipped — the "${crmResult.value.provider}" provider is not fully configured in this environment. ` +
+          "Set CRM_PROVIDER=zoho plus ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN and the .in ZOHO_ACCOUNTS_URL/ZOHO_API_DOMAIN values, then redeploy.",
+      );
+      return NextResponse.json(
+        { error: "We couldn't register your details. Please try again shortly." },
+        { status: 502 },
       );
     }
 

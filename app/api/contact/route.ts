@@ -214,12 +214,19 @@ This email was sent from the Sterlixit website contact form.
       `.trim(),
     };
 
-    const emailPromise = transporter.sendMail(mailOptions).catch((error) => {
-      console.warn("Email delivery failed for contact submission", error);
-      return null;
-    });
+    // Email is the primary channel and the CRM is a secondary system of record.
+    // Both run independently; we only report success if at least one of them
+    // actually captured the inquiry — otherwise the visitor sees "received"
+    // while the message is silently lost.
+    const emailPromise = transporter
+      .sendMail(mailOptions)
+      .then(() => true)
+      .catch((error) => {
+        console.warn("Email delivery failed for contact submission", error);
+        return false;
+      });
 
-    await submitContactToCrm({
+    const crmPromise = submitContactToCrm({
       name,
       email,
       phone,
@@ -229,9 +236,31 @@ This email was sent from the Sterlixit website contact form.
       budget,
       message,
       source: normalizedSource,
-    });
+    }).then(
+      (result) => result.delivered,
+      (error) => {
+        console.error("Contact: CRM submission failed", error);
+        return false;
+      },
+    );
 
-    await emailPromise;
+    const [emailDelivered, crmDelivered] = await Promise.all([
+      emailPromise,
+      crmPromise,
+    ]);
+
+    if (!emailDelivered && !crmDelivered) {
+      console.error(
+        "Contact: submission reached neither email nor CRM — both channels failed or are unconfigured.",
+      );
+      return NextResponse.json(
+        {
+          error:
+            "We couldn't deliver your message. Please email us directly or try again shortly.",
+        },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json(
       { success: true, message: "Contact received" },

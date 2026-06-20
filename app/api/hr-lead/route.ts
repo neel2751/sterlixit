@@ -47,7 +47,9 @@ export async function POST(request: Request) {
       "Mobile companion app status: in development phase",
     ].join("\n");
 
-    await submitContactToCrm({
+    // The CRM (or webhook backstop) is the only destination for this lead, so
+    // only report success if it actually reached one of them.
+    const delivered = await submitContactToCrm({
       name: String(name),
       email: String(email),
       phone: String(phone || "Not provided"),
@@ -64,7 +66,23 @@ export async function POST(request: Request) {
           ? "intent_start_trial"
           : "intent_request_demo",
       ],
-    });
+    }).then(
+      (result) => result.delivered,
+      (error) => {
+        console.error("HR lead: CRM submission failed", error);
+        return false;
+      },
+    );
+
+    if (!delivered) {
+      console.error(
+        "HR lead: submission reached no destination — no CRM provider configured and no CRM_WEBHOOK_URL set.",
+      );
+      return NextResponse.json(
+        { error: "We couldn't capture your request. Please try again shortly." },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json(
       { success: true, message: "HR lead captured" },

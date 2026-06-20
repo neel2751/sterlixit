@@ -41,7 +41,9 @@ export async function POST(request: Request) {
       currentPainPoint || "Not specified",
     ].join("\n");
 
-    await submitContactToCrm({
+    // The CRM (or webhook backstop) is the only destination for this enquiry, so
+    // only report success if it actually reached one of them.
+    const delivered = await submitContactToCrm({
       name,
       email,
       phone,
@@ -57,7 +59,26 @@ export async function POST(request: Request) {
         `coverage_${toTag(coverageWindow, "coverage_unspecified")}`,
         `followup_${toTag(preferredContact, "followup_unspecified")}`,
       ],
-    });
+    }).then(
+      (result) => result.delivered,
+      (error) => {
+        console.error("Support SLA: CRM submission failed", error);
+        return false;
+      },
+    );
+
+    if (!delivered) {
+      console.error(
+        "Support SLA: enquiry reached no destination — no CRM provider configured and no CRM_WEBHOOK_URL set.",
+      );
+      return NextResponse.json(
+        {
+          error:
+            "We couldn't submit your enquiry. Please try again shortly.",
+        },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json(
       { success: true, message: "SLA enquiry received" },
