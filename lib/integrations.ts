@@ -70,12 +70,18 @@ type LeadCapture = {
   name?: string;
   company?: string;
   message?: string;
+  /** Maps to the Zoho custom `Service` field (e.g. "PropManage"). */
+  service?: string;
+  /** Applied as Zoho `Tag` entries (e.g. "Early Access", "PropManage"). */
+  tags?: string[];
 };
 
 type NewsletterSubscription = {
   email: string;
   source: string;
   tags: string[];
+  /** Full name or company name — used to personalise marketing emails. */
+  name?: string;
 };
 
 function splitFullName(fullName: string) {
@@ -283,6 +289,14 @@ async function createZohoLeadCapture(lead: LeadCapture) {
     Description: descriptionLines.join("\n"),
   };
 
+  if (lead.service) {
+    baseRecord.Service = lead.service;
+  }
+
+  if (lead.tags?.length) {
+    baseRecord.Tag = lead.tags.map((name) => ({ name }));
+  }
+
   if (!isContactsModule) {
     baseRecord.Company = lead.company?.trim() || "Lead Capture";
     baseRecord.Lead_Source = lead.source;
@@ -307,6 +321,17 @@ async function subscribeMailchimp(payload: NewsletterSubscription) {
   const authToken = Buffer.from(`sterlixit:${mailchimpApiKey}`).toString(
     "base64",
   );
+  // Only send merge fields guaranteed to exist. FNAME is a Mailchimp default;
+  // SOURCE is a custom field many audiences don't have (an unknown merge field
+  // makes the whole request 400), so the source is recorded as a tag instead —
+  // tags are created on the fly and never error.
+  const mergeFields: Record<string, string> = {};
+  if (payload.name) {
+    mergeFields.FNAME = payload.name;
+  }
+  const tags = Array.from(
+    new Set([...payload.tags, payload.source].filter(Boolean)),
+  );
   const response = await fetch(
     `https://${dataCenter}.api.mailchimp.com/3.0/lists/${mailchimpAudienceId}/members`,
     {
@@ -318,10 +343,8 @@ async function subscribeMailchimp(payload: NewsletterSubscription) {
       body: JSON.stringify({
         email_address: payload.email,
         status: "subscribed",
-        tags: payload.tags,
-        merge_fields: {
-          SOURCE: payload.source,
-        },
+        tags,
+        merge_fields: mergeFields,
       }),
     },
   );
@@ -412,6 +435,7 @@ export async function subscribeToNewsletter(
     source: subscription.source,
     data: {
       email: subscription.email,
+      name: subscription.name,
       tags: subscription.tags,
     },
   };

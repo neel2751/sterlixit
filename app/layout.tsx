@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import { publicIntegrationConfig } from "@/lib/integrations";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
@@ -90,7 +91,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0f172a",
+  colorScheme: "dark light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f6f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0e12" },
+  ],
 };
 
 export default function RootLayout({
@@ -139,7 +144,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" suppressHydrationWarning>
       <body
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
         suppressHydrationWarning
@@ -234,7 +239,14 @@ export default function RootLayout({
           />
         ) : null}
 
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         {shouldEnableVercelAnalytics ? <Analytics /> : null}
       </body>
     </html>

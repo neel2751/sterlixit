@@ -11,11 +11,15 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { useTheme } from "next-themes";
 import {
   ArrowUpRight,
   CheckCircle2,
   Menu,
   MessageCircle,
+  Moon,
+  Sun,
+  TrendingUp,
   X,
 } from "lucide-react";
 
@@ -117,9 +121,57 @@ import {
 import { publicIntegrationConfig } from "@/lib/integrations";
 import { cn } from "@/lib/utils";
 
+function ThemeToggle({ className }: { className?: string }) {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={
+        mounted
+          ? `Switch to ${isDark ? "light" : "dark"} theme`
+          : "Toggle colour theme"
+      }
+      className={cn(
+        "relative inline-flex size-9 items-center justify-center rounded-full border border-border/70 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        className,
+      )}
+    >
+      {/* Render both icons and cross-fade with CSS so there is no hydration flash. */}
+      <Sun
+        className={cn(
+          "size-4 transition-all",
+          mounted && isDark
+            ? "scale-0 -rotate-90 opacity-0"
+            : "scale-100 rotate-0 opacity-100",
+        )}
+        aria-hidden="true"
+      />
+      <Moon
+        className={cn(
+          "absolute size-4 transition-all",
+          mounted && isDark
+            ? "scale-100 rotate-0 opacity-100"
+            : "scale-0 rotate-90 opacity-0",
+        )}
+        aria-hidden="true"
+      />
+    </button>
+  );
+}
+
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogoBrandHovering, setIsLogoBrandHovering] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   const normalizePath = (value: string) =>
@@ -135,135 +187,191 @@ export function SiteHeader() {
 
     return current === target || current.startsWith(`${target}/`);
   };
-  // Keep this utility set for future campaigns if needed:
-  // const utilityNav = [
-  //   { label: "Branding", href: "/services/graphics-branding" },
-  //   { label: "Web Development", href: "/services/web-design-development" },
-  //   { label: "Digital Marketing", href: "/services/digital-marketing" },
-  //   { label: "Case Studies", href: "/portfolio" },
-  // ];
+
+  // The home page scrolls inside a nested container, other pages scroll the
+  // window — capture-phase listening catches both so the header style stays
+  // in sync no matter which element is scrolling.
+  useEffect(() => {
+    const update = (event?: Event) => {
+      const target = event?.target;
+      const top =
+        target instanceof HTMLElement ? target.scrollTop : window.scrollY;
+      setScrolled(top > 8);
+    };
+
+    update();
+    document.addEventListener("scroll", update, {
+      passive: true,
+      capture: true,
+    });
+    return () => document.removeEventListener("scroll", update, true);
+  }, []);
+
+  // Collapse the mobile menu whenever the route changes.
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/88 backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-40 border-b transition-all duration-300",
+        scrolled
+          ? "border-border/70 bg-background/80 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-background/70"
+          : "border-transparent bg-background/40 backdrop-blur-md",
+      )}
+    >
+      <a
+        href="#main-content"
+        className="sr-only left-4 top-3 z-50 rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm focus:not-sr-only focus:absolute focus:outline-none focus:ring-2 focus:ring-ring"
+      >
+        Skip to main content
+      </a>
       <SiteContainer>
-        <div className="flex items-center justify-between py-2.5 sm:py-3.5">
-          <motion.div
-            className="inline-flex items-center gap-1.5 sm:gap-2.5"
-            onHoverStart={() => setIsLogoBrandHovering(true)}
-            onHoverEnd={() => setIsLogoBrandHovering(false)}
+        <div className="flex items-center justify-between py-2.5 sm:py-3">
+          <Link
+            href="/"
+            aria-label="Go to Sterlixit homepage"
+            className="group inline-flex items-center gap-2"
           >
-            <Link
-              href="/"
-              aria-label="Go to Sterlixit homepage"
-              className="inline-flex items-center gap-1.5 sm:gap-2.5"
+            <motion.div
+              whileHover={{ scale: 1.07, rotate: 4 }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
             >
-              <motion.div
-                whileHover={{ scale: 1.08, rotate: 2 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <Image
-                  src="/sterlixit.svg"
-                  alt="Sterlixit digital growth agency logo"
-                  title="Sterlixit digital growth agency"
-                  width={132}
-                  height={32}
-                  priority
-                  className="h-12 w-auto sm:h-16"
-                />
-              </motion.div>
-              <motion.span
-                animate={
-                  isLogoBrandHovering
-                    ? { opacity: 1, x: 0 }
-                    : { opacity: 0.7, x: -8 }
-                }
-                transition={{
-                  delay: isLogoBrandHovering ? 0.08 : 0,
-                  duration: 0.35,
-                }}
-                className="hidden text-xl font-semibold tracking-tight text-foreground sm:inline md:text-2xl"
-              >
-                Sterlixit
-              </motion.span>
-            </Link>
-          </motion.div>
-          <nav className="hidden items-center gap-1 rounded-full border border-border/60 bg-secondary/35 p-1.5 lg:flex">
-            {mainNavigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={isActiveLink(item.href) ? "page" : undefined}
-                className={cn(
-                  "rounded-full px-3 py-1.5 text-base transition",
-                  isActiveLink(item.href)
-                    ? "text-primary font-medium"
-                    : "text-muted-foreground hover:bg-background hover:text-foreground",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
+              <Image
+                src="/sterlixit.svg"
+                alt="Sterlixit digital growth agency logo"
+                title="Sterlixit digital growth agency"
+                width={48}
+                height={48}
+                priority
+                className="h-10 w-10 sm:h-11 sm:w-11"
+              />
+            </motion.div>
+            <span className="text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-xl">
+              Sterlixit
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <nav
+              aria-label="Primary"
+              onMouseLeave={() => setHoveredHref(null)}
+              className="hidden items-center gap-0.5 rounded-full border border-border/60 bg-secondary/40 p-1 backdrop-blur lg:flex"
+            >
+              {mainNavigation.map((item) => {
+                const active = isActiveLink(item.href);
+                const showPill = hoveredHref
+                  ? hoveredHref === item.href
+                  : active;
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onMouseEnter={() => setHoveredHref(item.href)}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative rounded-full px-3 py-1.5 text-sm transition-colors",
+                      showPill
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground",
+                      active && "font-medium",
+                    )}
+                  >
+                    {showPill ? (
+                      <motion.span
+                        layoutId="nav-active-pill"
+                        className="absolute inset-0 -z-10 rounded-full bg-background shadow-sm ring-1 ring-border/55"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 32,
+                        }}
+                      />
+                    ) : null}
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <ThemeToggle className="hidden lg:inline-flex" />
+
             <Button
               asChild
               size="sm"
-              className="group relative overflow-hidden rounded-full border border-primary/45 bg-linear-to-r from-primary to-primary/80 px-4 text-primary-foreground shadow-[0_10px_26px_rgba(79,70,229,0.35)] hover:from-primary/95 hover:to-primary/75"
+              className="group hidden rounded-full px-4 lg:inline-flex"
             >
-              <Link href="/book-free-strategy-call" className="relative">
-                <span className="relative z-10">Book a Call</span>
-                <span className="pointer-events-none absolute -left-10 top-0 h-full w-10 -skew-x-12 bg-white/55 blur-[1px] transition-transform duration-700 group-hover:translate-x-36" />
+              <Link href="/book-free-strategy-call">
+                Book a Call
+                <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-          </nav>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-label={
-              isOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={isOpen}
-            aria-controls="mobile-site-nav"
-          >
-            {isOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </Button>
+
+            <ThemeToggle className="lg:hidden" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setIsOpen((prev) => !prev)}
+              aria-label={
+                isOpen ? "Close navigation menu" : "Open navigation menu"
+              }
+              aria-expanded={isOpen}
+              aria-controls="mobile-site-nav"
+            >
+              {isOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </Button>
+          </div>
         </div>
       </SiteContainer>
-      {isOpen ? (
-        <div id="mobile-site-nav" className="border-t bg-background lg:hidden">
-          <SiteContainer>
-            <div className="flex flex-col gap-3 py-4">
-              {mainNavigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActiveLink(item.href) ? "page" : undefined}
-                  className={cn(
-                    "rounded-md px-2 py-1.5 text-sm transition",
-                    isActiveLink(item.href)
-                      ? "bg-secondary text-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
+
+      <AnimatePresence initial={false}>
+        {isOpen ? (
+          <motion.div
+            id="mobile-site-nav"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-t border-border/70 bg-background/95 backdrop-blur-xl lg:hidden"
+          >
+            <SiteContainer>
+              <nav aria-label="Mobile" className="flex flex-col gap-1 py-4">
+                {mainNavigation.map((item) => {
+                  const active = isActiveLink(item.href);
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between rounded-xl px-3 py-3 text-sm transition",
+                        active
+                          ? "bg-secondary font-medium text-foreground"
+                          : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground",
+                      )}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                      <ArrowUpRight className="size-4 opacity-50" />
+                    </Link>
+                  );
+                })}
+                <Button
+                  asChild
+                  className="mt-2 w-full rounded-full"
                   onClick={() => setIsOpen(false)}
                 >
-                  {item.label}
-                </Link>
-              ))}
-              <Button
-                asChild
-                size="sm"
-                className="group relative w-fit overflow-hidden rounded-full border border-primary/45 bg-linear-to-r from-primary to-primary/80 text-primary-foreground"
-                onClick={() => setIsOpen(false)}
-              >
-                <Link href="/book-free-strategy-call" className="relative">
-                  <span className="relative z-10">Book a Call</span>
-                  <span className="pointer-events-none absolute -left-8 top-0 h-full w-8 -skew-x-12 bg-white/55 transition-transform duration-700 group-hover:translate-x-28" />
-                </Link>
-              </Button>
-            </div>
-          </SiteContainer>
-        </div>
-      ) : null}
+                  <Link href="/book-free-strategy-call">Book a Call</Link>
+                </Button>
+              </nav>
+            </SiteContainer>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }
@@ -275,18 +383,23 @@ export function SiteFooter() {
   );
 
   return (
-    <footer className="relative overflow-hidden border-t bg-[linear-gradient(180deg,rgba(110,120,255,0.09)_0%,rgba(120,120,120,0)_58%)]">
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-70 [background:radial-gradient(circle_at_top_right,rgba(110,120,255,0.18),transparent_40%),radial-gradient(circle_at_10%_80%,rgba(70,70,70,0.12),transparent_34%)]" />
+    <footer className="relative overflow-hidden border-t border-border/70">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 [background:radial-gradient(60%_55%_at_50%_0%,color-mix(in_oklab,var(--primary)_9%,transparent),transparent_70%)]"
+      />
       <SiteContainer>
         <div className="grid gap-8 py-14 lg:grid-cols-[1.35fr_1fr] lg:items-end">
           <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Build With Confidence
-            </p>
-            <h3 className="max-w-2xl text-3xl font-semibold tracking-tight md:text-5xl">
+            <span className="eyebrow">Build With Confidence</span>
+            <h2 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight md:text-4xl">
               Create your next growth chapter with design, engineering, and
               performance marketing under one partner.
-            </h3>
+            </h2>
             <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
               Tell us your goals and current blockers. We will map a practical,
               milestone-based plan around your timeline.
@@ -301,7 +414,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <Card className="border-border/70 bg-background/80 backdrop-blur">
+          <Card className="border-border/70 bg-card/70 shadow-md backdrop-blur-xl">
             <CardHeader className="space-y-2">
               <CardTitle className="text-xl">Get Updates That Matter</CardTitle>
               <p className="text-sm text-muted-foreground">
@@ -350,7 +463,7 @@ export function SiteFooter() {
                   {state === "loading" ? "Subscribing..." : "Subscribe"}
                 </Button>
                 {state === "done" ? (
-                  <p className="text-sm text-emerald-600">
+                  <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
                     Subscribed. Watch your inbox for the next playbook.
                   </p>
                 ) : null}
@@ -460,9 +573,20 @@ export function SiteFooter() {
   );
 }
 
-export function SiteContainer({ children }: { children: React.ReactNode }) {
+export function SiteContainer({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mx-auto w-full container px-5 sm:px-6 lg:px-10 xl:px-12">
+    <div
+      className={cn(
+        "mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -471,23 +595,39 @@ export function SiteContainer({ children }: { children: React.ReactNode }) {
 export function SiteSection({
   title,
   description,
+  eyebrow,
   children,
   id,
+  className,
 }: {
   title: string;
   description?: string;
+  eyebrow?: string;
   children: React.ReactNode;
   id?: string;
+  className?: string;
 }) {
+  const headingId = id ? `${id}-heading` : undefined;
+
   return (
-    <section id={id} className="py-16 md:py-20 lg:py-24">
+    <section
+      id={id}
+      aria-labelledby={headingId}
+      className={cn("section-y scroll-mt-24", className)}
+    >
       <SiteContainer>
-        <div className="mb-8 w-full space-y-3 md:mb-10">
-          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+        <div className="mb-10 w-full max-w-2xl space-y-4 md:mb-12">
+          {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
+          <h2
+            id={headingId}
+            className="text-balance text-3xl font-semibold tracking-tight md:text-4xl"
+          >
             {title}
           </h2>
           {description ? (
-            <p className="max-w-3xl text-muted-foreground">{description}</p>
+            <p className="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+              {description}
+            </p>
           ) : null}
         </div>
         <div className="w-full">{children}</div>
@@ -622,8 +762,15 @@ const HERO_CYCLE_WORDS = [
   "Growth",
 ];
 
+const HERO_STATS = [
+  { value: "+37%", label: "Avg. conversion lift" },
+  { value: "10+", label: "Projects delivered" },
+  { value: "6–10 wk", label: "Time to launch" },
+];
+
 export function HomeHeroMotion() {
   const [cycleIndex, setCycleIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -632,129 +779,108 @@ export function HomeHeroMotion() {
     return () => clearInterval(timer);
   }, []);
 
+  const loop = (duration: number) =>
+    shouldReduceMotion
+      ? { duration: 0 }
+      : ({ duration, repeat: Infinity, ease: "easeInOut" } as const);
+
   return (
-    <section className="relative overflow-hidden border-b py-20 md:py-28 ">
-      <div className="absolute inset-0 -z-10 overflow-hidden opacity-95">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.16),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(16,185,129,0.08),transparent_40%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.12)_1px,transparent_1px)] bg-size-[46px_46px]" />
-        <motion.div
-          className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl"
-          animate={{ x: [0, 65, -28, 0], y: [0, 26, -14, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-0 top-20 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
-          animate={{ x: [0, -56, 24, 0], y: [0, -24, 12, 0] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute left-1/3 top-1/2 h-44 w-44 -translate-y-1/2 rounded-full border border-border/50"
-          animate={{ rotate: [0, 360], scale: [1, 1.08, 1] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-        />
+    <section className="relative overflow-hidden border-b border-border/70 pb-16 pt-12 md:pb-24 md:pt-20">
+      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-40 left-1/2 h-[30rem] w-[56rem] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(99,102,241,0.18)_1px,transparent_1px)] bg-size-[26px_26px] opacity-40 mask-[radial-gradient(ellipse_70%_55%_at_50%_25%,black,transparent_80%)]" />
       </div>
 
       <SiteContainer>
-        <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
-          <AnimatedReveal className="space-y-7" instant>
-            <motion.div
-              className="inline-flex w-fit items-center rounded-full border border-border/80 bg-background/75 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.01 }}
+        <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10">
+          <AnimatedReveal className="space-y-6" instant>
+            <Link
+              href="/portfolio"
+              className="group inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-background/70 py-1 pl-1.5 pr-3 text-xs text-muted-foreground shadow-sm backdrop-blur transition hover:border-primary/40 hover:text-foreground"
             >
-              Fintech-grade digital execution for modern teams
-            </motion.div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary">
+                <span className="relative flex size-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/70" />
+                  <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+                </span>
+                New
+              </span>
+              <span>Fintech-grade execution for modern teams</span>
+              <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5" />
+            </Link>
 
-            <motion.h1
-              className="max-w-xl text-4xl font-semibold tracking-tight md:text-6xl md:leading-[1.02]"
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.01 }}
-            >
-              Build a Premium Growth Engine That Turns Into{" "}
+            <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl md:leading-[1.04]">
+              Build a premium growth engine that turns into{" "}
               <span className="relative inline-block overflow-hidden align-bottom">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={HERO_CYCLE_WORDS[cycleIndex]}
-                    className="inline-block bg-linear-to-r from-primary to-primary/80 bg-clip-text text-transparent"
-                    initial={{ opacity: 0, y: "0.55em" }}
+                    className="inline-block bg-linear-to-r from-primary to-primary/65 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, y: "0.6em" }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: "-0.55em" }}
-                    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                    exit={{ opacity: 0, y: "-0.6em" }}
+                    transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {HERO_CYCLE_WORDS[cycleIndex]}
                   </motion.span>
                 </AnimatePresence>
               </span>
-            </motion.h1>
-            <motion.p
-              className="max-w-lg text-[17px] leading-relaxed text-muted-foreground"
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.01 }}
-            >
+            </h1>
+
+            <p className="max-w-lg text-pretty text-[17px] leading-relaxed text-muted-foreground">
               Sterlixit combines design, engineering, and performance marketing
               so your brand feels high trust from day one and scales with a
               measurable revenue system.
-            </motion.p>
-            <motion.div
-              className="flex flex-wrap items-center gap-3 pt-1"
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.01 }}
-            >
-              <motion.div
-                animate={{ y: [0, -2, 0] }}
-                transition={{
-                  duration: 1.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <Button
+                asChild
+                size="lg"
+                className="group rounded-full px-6 shadow-[var(--shadow-glow)]"
               >
-                <Button asChild size="lg">
-                  <Link href="/book-free-strategy-call">
-                    Get Free Consultation
-                  </Link>
-                </Button>
-              </motion.div>
+                <Link href="/book-free-strategy-call">
+                  Get Free Consultation
+                  <ArrowUpRight className="ml-1 size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </Link>
+              </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-border/70"
+                className="rounded-full border-border/70 bg-card/50 backdrop-blur"
               >
                 <Link href="/services">View Services</Link>
               </Button>
-            </motion.div>
+            </div>
 
-            <motion.div
-              className="grid gap-2 pt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-2"
-              initial={false}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.01 }}
-            >
-              {["Launch-ready in weeks", "Strategy + Build + Growth"].map(
-                (proof) => (
-                  <span
-                    key={proof}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1.5"
+            <dl className="grid max-w-md grid-cols-3 gap-3 pt-4">
+              {HERO_STATS.map((stat) => (
+                <div key={stat.label} className="glass rounded-2xl px-3 py-3">
+                  <dt className="sr-only">{stat.label}</dt>
+                  <dd className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                    {stat.value}
+                  </dd>
+                  <p
+                    className="mt-0.5 text-[11px] leading-tight text-muted-foreground"
+                    aria-hidden="true"
                   >
-                    <CheckCircle2 className="size-3.5 text-primary" />
-                    {proof}
-                  </span>
-                ),
-              )}
-            </motion.div>
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </dl>
           </AnimatedReveal>
 
-          <AnimatedReveal delay={0.2} instant>
-            <motion.div
-              initial={{ rotate: -2, y: 10 }}
-              animate={{ rotate: [0, 1.2, 0], y: [0, -4, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="relative rounded-3xl border border-border/70 bg-background/80 p-3 md:p-4 backdrop-blur">
+          <AnimatedReveal delay={0.15} instant>
+            <div className="relative">
+              <div className="absolute -inset-6 -z-10 rounded-4xl bg-[radial-gradient(circle_at_50%_30%,rgba(99,102,241,0.20),transparent_70%)] blur-2xl" />
+              <motion.div
+                initial={shouldReduceMotion ? false : { rotate: -1.5, y: 8 }}
+                animate={shouldReduceMotion ? undefined : { rotate: [0, 1, 0], y: [0, -6, 0] }}
+                transition={loop(8)}
+                className="relative rounded-3xl border border-border/70 bg-card/70 p-2.5 shadow-[var(--shadow-lg)] backdrop-blur-xl md:p-3"
+              >
                 <div className="relative overflow-hidden rounded-2xl border border-border/60">
                   <Image
                     src="/home/hero.svg"
@@ -762,58 +888,62 @@ export function HomeHeroMotion() {
                     title="Sterlixit website growth dashboard preview"
                     width={980}
                     height={640}
-                    className="h-90 w-full object-cover md:h-125 lg:h-140"
+                    className="h-80 w-full object-cover md:h-120 lg:h-136"
                     priority
                   />
-                  {/* <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0)_35%,rgba(15,23,42,0.62)_100%)]" /> */}
-                  <motion.div
-                    className="absolute left-5 top-5 rounded-xl border border-border/60 bg-background/80 px-3 py-2 backdrop-blur"
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{
-                      duration: 2.8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                      Live Campaigns
-                    </p>
-                    <p className="text-sm font-semibold">
-                      +34% conversion trend
-                    </p>
-                  </motion.div>
-                  {/* <motion.div
-                    className="absolute bottom-5 left-5 right-5 rounded-xl border border-border/60 bg-background/85 p-3 backdrop-blur"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: [0, -3, 0] }}
-                    transition={{
-                      duration: 4.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>Performance Snapshot</span>
-                      <span>Updated live</span>
-                    </div>
-                    <div className="mt-2 grid grid-cols-3 gap-2 text-center">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <p className="text-xs text-muted-foreground">ROAS</p>
-                        <p className="text-sm font-semibold">4.8x</p>
-                      </div>
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <p className="text-xs text-muted-foreground">Leads</p>
-                        <p className="text-sm font-semibold">1.9k</p>
-                      </div>
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <p className="text-xs text-muted-foreground">CPA</p>
-                        <p className="text-sm font-semibold">-21%</p>
-                      </div>
-                    </div>
-                  </motion.div> */}
                 </div>
-              </div>
-            </motion.div>
+
+                <motion.div
+                  className="absolute left-4 top-4 flex items-center gap-2.5 rounded-2xl border border-border/60 bg-card/90 px-3 py-2 shadow-md backdrop-blur-xl"
+                  animate={shouldReduceMotion ? undefined : { y: [0, -6, 0] }}
+                  transition={loop(3.4)}
+                >
+                  <span className="flex size-8 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                    <TrendingUp className="size-4" />
+                  </span>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                      Live campaigns
+                    </p>
+                    <p className="text-sm font-semibold">+34% conversion</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/90 px-2.5 py-1 text-[11px] font-medium text-foreground shadow-md backdrop-blur-xl"
+                  animate={shouldReduceMotion ? undefined : { opacity: [0.85, 1, 0.85] }}
+                  transition={loop(2.4)}
+                >
+                  <span className="size-1.5 rounded-full bg-emerald-500" />
+                  Live
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-4 right-4 w-44 rounded-2xl border border-border/60 bg-card/90 p-3 shadow-md backdrop-blur-xl"
+                  animate={shouldReduceMotion ? undefined : { y: [0, 6, 0] }}
+                  transition={loop(4.2)}
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                      Revenue
+                    </p>
+                    <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                      <TrendingUp className="size-3" /> 18%
+                    </span>
+                  </div>
+                  <p className="mt-1 text-lg font-semibold">£128.4k</p>
+                  <div className="mt-2 flex h-6 items-end gap-1">
+                    {[40, 62, 48, 78, 58, 90, 72].map((height, index) => (
+                      <span
+                        key={index}
+                        className="flex-1 rounded-sm bg-linear-to-t from-primary/30 to-primary"
+                        style={{ height: `${height}%` }}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
           </AnimatedReveal>
         </div>
       </SiteContainer>

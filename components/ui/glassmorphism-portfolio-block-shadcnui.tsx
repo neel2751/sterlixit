@@ -95,16 +95,16 @@ const itemVariants: Variants = {
 
 export function GlassmorphismPortfolioBlock() {
   return (
-    <section className="relative overflow-hidden px-6 py-24 lg:py-32">
+    <section className="relative overflow-hidden px-6 py-8 lg:py-12">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-3xl border border-border/50 bg-background/45 p-8 backdrop-blur-2xl md:p-12"
+          className="relative overflow-hidden rounded-3xl border border-border/50 bg-card/55 p-8 shadow-md backdrop-blur-2xl md:p-12"
         >
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/15 via-transparent to-transparent" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/15 via-transparent to-transparent" />
 
           <div className="relative grid gap-12 lg:grid-cols-2">
             <div className="space-y-8">
@@ -130,7 +130,7 @@ export function GlassmorphismPortfolioBlock() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-md"
+                  className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
                 >
                   We help ambitious teams design and ship conversion-ready
                   digital experiences with strategy, engineering, and
@@ -147,9 +147,9 @@ export function GlassmorphismPortfolioBlock() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.1 * index }}
                     whileHover={{ y: -4 }}
-                    className="group relative overflow-hidden rounded-2xl border border-border/40 bg-background/60 p-5 backdrop-blur transition-all hover:border-primary/35 hover:shadow-lg"
+                    className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card/70 p-5 shadow-sm backdrop-blur transition-all hover:border-primary/35 hover:shadow-lg"
                   >
-                    <div className="absolute inset-0 -z-10 bg-linear-to-br from-primary/12 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-br from-primary/12 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                     <div className="relative space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/70">
                         {item.title}
@@ -181,8 +181,8 @@ export function GlassmorphismPortfolioBlock() {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 rounded-4xl bg-linear-to-b from-primary/20 via-transparent to-transparent blur-3xl" />
-              <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-border/50 bg-background/60 p-8 backdrop-blur-xl">
+              <div aria-hidden="true" className="absolute inset-0 rounded-4xl bg-linear-to-b from-primary/20 via-transparent to-transparent blur-3xl" />
+              <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-border/50 bg-card/70 p-8 shadow-sm backdrop-blur-xl">
                 <div className="flex flex-col items-center text-center">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -244,12 +244,12 @@ export function GlassmorphismPortfolioBlock() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-between rounded-2xl border border-border/40 bg-background/70 px-4 py-3 text-left transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:bg-background/80 hover:shadow-md"
+                        className="group flex items-center justify-between rounded-2xl border border-border/40 bg-card/70 px-4 py-3 text-left transition-all hover:-translate-y-0.5 hover:border-primary/35 hover:bg-card/90 hover:shadow-md"
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.985 }}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-background/70 text-foreground/80 shadow-[0_10px_30px_rgba(15,23,42,0.2)] transition-all group-hover:shadow-[0_10px_30px_rgba(15,23,42,0.3)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)] dark:group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-card/80 text-foreground/80 shadow-sm transition-all dark:shadow-md">
                             <Icon className="h-4 w-4" />
                           </span>
                           <div>

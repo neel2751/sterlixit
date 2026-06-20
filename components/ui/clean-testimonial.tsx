@@ -103,12 +103,21 @@ export function Testimonial() {
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto w-full container px-8 py-20"
+      className="relative mx-auto w-full max-w-5xl px-6 py-16 outline-none sm:px-8 sm:py-20"
       style={{ cursor: "none" }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Testimonial ${activeIndex + 1} of ${testimonials.length}. Activate to show the next testimonial.`}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleNext}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleNext();
+        }
+      }}
     >
       <motion.div
         className="pointer-events-none absolute z-50"
@@ -170,7 +179,7 @@ export function Testimonial() {
             key={i}
             className={`relative h-10 w-10 overflow-hidden rounded-xl border bg-white p-1.5 transition-all duration-300 ${
               i === activeIndex
-                ? "z-20 border-accent/70 shadow-[0_10px_22px_rgba(79,70,229,0.28)] ring-1 ring-accent/50"
+                ? "z-20 border-primary/70 shadow-[0_10px_22px_rgba(79,70,229,0.28)] ring-1 ring-primary/50"
                 : "z-10 border-border/60 grayscale opacity-60"
             }`}
             animate={{
@@ -205,7 +214,7 @@ export function Testimonial() {
           <div className="flex items-center gap-4">
             <div className="relative h-14 w-14 overflow-hidden rounded-2xl">
               <motion.div
-                className="absolute -inset-1.5 rounded-2xl border border-accent/30"
+                className="absolute -inset-1.5 rounded-2xl border border-primary/30"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
@@ -219,7 +228,7 @@ export function Testimonial() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute inset-1 h-12 w-12 rounded-xl border border-border/60 bg-white p-1.5 object-contain shadow-[0_8px_16px_rgba(15,23,42,0.12)]"
+                  className="absolute inset-1 h-12 w-12 rounded-xl border border-border/60 bg-white p-1.5 object-contain shadow-sm"
                 />
               </AnimatePresence>
             </div>
@@ -234,7 +243,7 @@ export function Testimonial() {
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="absolute bottom-0 left-0 top-0 w-px bg-accent"
+                  className="absolute bottom-0 left-0 top-0 w-px bg-primary"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{
@@ -254,7 +263,7 @@ export function Testimonial() {
 
         <div className="relative mt-16 h-px overflow-hidden bg-border">
           <motion.div
-            className="absolute inset-y-0 left-0 bg-accent"
+            className="absolute inset-y-0 left-0 bg-primary"
             initial={{ width: "0%" }}
             animate={{
               width: `${((activeIndex + 1) / testimonials.length) * 100}%`,
@@ -267,10 +276,10 @@ export function Testimonial() {
       <motion.div
         className="absolute bottom-8 left-8 flex items-center gap-2"
         initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 0.4 : 0.2 }}
+        animate={{ opacity: isHovered ? 0.7 : 0.5 }}
         transition={{ duration: 0.3 }}
       >
-        <span className="font-mono text-[10px] uppercase tracking-widest text-foreground/70">
+        <span className="font-mono text-xs uppercase tracking-widest text-foreground/85">
           Click anywhere
         </span>
       </motion.div>
