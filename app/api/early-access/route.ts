@@ -93,6 +93,11 @@ export async function POST(request: Request) {
         "Early access: newsletter signup failed",
         newsletterResult.reason,
       );
+    } else if (!newsletterResult.value.delivered) {
+      console.warn(
+        `Early access: newsletter signup was skipped — the "${newsletterResult.value.provider}" provider is not configured in this environment. ` +
+          "Set NEWSLETTER_PROVIDER=mailchimp plus MAILCHIMP_API_KEY (with its -usXX data-center suffix) and MAILCHIMP_AUDIENCE_ID, then redeploy.",
+      );
     }
 
     if (crmResult.status === "rejected") {

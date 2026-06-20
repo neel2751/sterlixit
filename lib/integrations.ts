@@ -325,13 +325,19 @@ async function subscribeMailchimp(payload: NewsletterSubscription) {
   const authToken = Buffer.from(`sterlixit:${mailchimpApiKey}`).toString(
     "base64",
   );
-  // Only send merge fields guaranteed to exist. FNAME is a Mailchimp default;
-  // SOURCE is a custom field many audiences don't have (an unknown merge field
-  // makes the whole request 400), so the source is recorded as a tag instead —
-  // tags are created on the fly and never error.
+  // Only send merge fields guaranteed to exist. FNAME and LNAME are both
+  // Mailchimp defaults present in every audience; SOURCE is a custom field many
+  // audiences don't have (an unknown merge field makes the whole request 400),
+  // so the source is recorded as a tag instead — tags are created on the fly
+  // and never error. The single "name" field (full name or company) is split
+  // into first/last so both merge fields are populated.
   const mergeFields: Record<string, string> = {};
   if (payload.name) {
-    mergeFields.FNAME = payload.name;
+    const parts = payload.name.trim().split(/\s+/);
+    mergeFields.FNAME = parts.length > 1 ? parts.slice(0, -1).join(" ") : parts[0];
+    if (parts.length > 1) {
+      mergeFields.LNAME = parts.at(-1) ?? "";
+    }
   }
   const tags = Array.from(
     new Set([...payload.tags, payload.source].filter(Boolean)),
@@ -357,12 +363,23 @@ async function subscribeMailchimp(payload: NewsletterSubscription) {
     return { skipped: false as const };
   }
 
-  const errorBody = await response.json().catch(() => ({}));
-  if (response.status === 400 && errorBody?.title === "Member Exists") {
+  const errorBody = (await response.json().catch(() => ({}))) as {
+    title?: string;
+    detail?: string;
+  };
+  // An already-subscribed member is a success for our purposes.
+  if (response.status === 400 && errorBody.title === "Member Exists") {
     return { skipped: false as const };
   }
 
-  throw new Error(`Mailchimp subscribe failed with status ${response.status}`);
+  // Surface Mailchimp's own title/detail — it explains *why* (compliance state,
+  // invalid merge fields, wrong audience/data-center, etc.), which the bare
+  // status code hides.
+  throw new Error(
+    `Mailchimp subscribe failed with status ${response.status}` +
+      (errorBody.title ? ` (${errorBody.title})` : "") +
+      (errorBody.detail ? `: ${errorBody.detail}` : ""),
+  );
 }
 
 export async function submitContactToCrm(contact: ContactSubmission): Promise<{
@@ -470,7 +487,13 @@ export async function submitLeadToCrm(lead: LeadCapture): Promise<{
 
 export async function subscribeToNewsletter(
   subscription: NewsletterSubscription,
-) {
+): Promise<{
+  /** The newsletter provider configured for this environment. */
+  provider: string;
+  /** True if the subscriber reached a destination (provider or webhook). */
+  delivered: boolean;
+}> {
+  const provider = serverIntegrationConfig.newsletterProvider;
   const payload = {
     type: "newsletter_subscription",
     submittedAt: new Date().toISOString(),
@@ -482,14 +505,25 @@ export async function subscribeToNewsletter(
     },
   };
 
-  if (serverIntegrationConfig.newsletterProvider === "mailchimp") {
-    await subscribeMailchimp(subscription);
+  let delivered = false;
+
+  if (provider === "mailchimp") {
+    const result = await subscribeMailchimp(subscription);
+    delivered = !result.skipped;
   }
 
-  await postJsonWebhook(
+  // The webhook is an independent backstop — a successful post counts as the
+  // subscriber reaching a destination even if no provider is configured.
+  const webhookResult = await postJsonWebhook(
     serverIntegrationConfig.newsletterWebhookUrl,
     payload,
   ).catch((error) => {
     console.warn("Newsletter webhook failed", error);
+    return { skipped: true as const };
   });
+  if (!webhookResult.skipped) {
+    delivered = true;
+  }
+
+  return { provider, delivered };
 }

@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTheme } from "next-themes";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -14,8 +15,10 @@ import {
   LineChart,
   Loader2,
   Mail,
+  Moon,
   ShieldCheck,
   Sparkles,
+  Sun,
   Users,
   Wallet,
   Wrench,
@@ -164,7 +167,7 @@ const STATS = [
   { value: "12k+", label: "Units under management" },
   { value: "98%", label: "Rent collected on time" },
   { value: "5 min", label: "To go live" },
-  { value: "24/7", label: "UK-based support" },
+  { value: "1:1", label: "Founder-led onboarding" },
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -249,9 +252,34 @@ export function PropManageEarlyAccess() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-[#050505] text-white">
+    <div className="pm-scope relative flex min-h-screen flex-col bg-[var(--pm-bg)] text-[var(--pm-text)]">
       {/* Animated gradient highlight + ambient brand glow (scoped to page). */}
       <style>{`
+        /* Page-scoped light/dark palette. Light is the default; the dark values
+           apply whenever the global \`.dark\` class (toggled by next-themes) is
+           present, so both Tailwind classes and inline styles re-theme together. */
+        .pm-scope {
+          --pm-bg: #f4f4fb; --pm-panel: #ffffff; --pm-card: #fbfbff;
+          --pm-panel-hover: #f1f1fa; --pm-text: #0c0c16; --pm-text-strong: #334155;
+          --pm-text-secondary: #475569; --pm-text-muted: #64748b;
+          --pm-text-faint: #94a3b8; --pm-text-faintest: #cbd5e1;
+          --pm-accent-text: #4f39f6;
+          --pm-border: rgba(15,23,42,0.10); --pm-border-faint: rgba(15,23,42,0.06);
+          --pm-border-strong: rgba(15,23,42,0.18); --pm-field: rgba(15,23,42,0.02);
+          --pm-chip: rgba(79,57,246,0.05); --pm-band: rgba(15,23,42,0.02);
+          --pm-divider: rgba(15,23,42,0.06); --pm-track: rgba(15,23,42,0.08);
+        }
+        .dark .pm-scope {
+          --pm-bg: #050505; --pm-panel: #070707; --pm-card: #0b0b0e;
+          --pm-panel-hover: #0a0a0a; --pm-text: #ffffff; --pm-text-strong: #cbd5e1;
+          --pm-text-secondary: #94a3b8; --pm-text-muted: #64748b;
+          --pm-text-faint: #475569; --pm-text-faintest: #334155;
+          --pm-accent-text: #b3a8ff;
+          --pm-border: rgba(255,255,255,0.10); --pm-border-faint: rgba(255,255,255,0.05);
+          --pm-border-strong: rgba(255,255,255,0.20); --pm-field: rgba(255,255,255,0.02);
+          --pm-chip: rgba(255,255,255,0.03); --pm-band: rgba(255,255,255,0.015);
+          --pm-divider: rgba(255,255,255,0.05); --pm-track: rgba(255,255,255,0.10);
+        }
         @keyframes pm-shimmer { to { background-position: -200% center; } }
         .pm-shimmer { background-size: 200% auto; animation: pm-shimmer 6s linear infinite; }
         @keyframes pm-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -274,7 +302,7 @@ export function PropManageEarlyAccess() {
         gradient defined on `.dark body`, guaranteeing a controlled backdrop.
       */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[#050505]" />
+        <div className="absolute inset-0 bg-[var(--pm-bg)]" />
         <div
           className="absolute inset-x-0 top-0 h-[60vh]"
           style={{
@@ -283,6 +311,9 @@ export function PropManageEarlyAccess() {
         />
       </div>
 
+      {/* Floating light / dark switch — visitors can set their preference. */}
+      <ThemeToggle />
+
       {/* Header — memorable brand lockup + Sterlix attribution. */}
       <header className="flex flex-col items-center gap-2 px-6 pt-9">
         <BrandLockup />
@@ -290,10 +321,12 @@ export function PropManageEarlyAccess() {
           href={WEBSITE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[0.7rem] tracking-wide text-slate-500 transition-colors hover:text-slate-300"
+          className="text-[0.7rem] tracking-wide text-[var(--pm-text-muted)] transition-colors hover:text-[var(--pm-text-strong)]"
         >
           a product by{" "}
-          <span className="font-medium text-slate-400">{COMPANY}</span>
+          <span className="font-medium text-[var(--pm-text-secondary)]">
+            {COMPANY}
+          </span>
         </a>
       </header>
 
@@ -309,7 +342,7 @@ export function PropManageEarlyAccess() {
                 style={{
                   borderColor: `${BRAND}40`,
                   backgroundColor: `${BRAND}14`,
-                  color: "#b3a8ff",
+                  color: "var(--pm-accent-text)",
                 }}
               >
                 <span
@@ -319,7 +352,7 @@ export function PropManageEarlyAccess() {
                 />
                 Early Access · 2026 Cohort
               </span>
-              <h1 className="group cursor-default text-balance text-3xl font-semibold leading-[1.08] tracking-tight text-white transition-transform duration-300 will-change-transform group-hover:-translate-y-0.5 hover:-translate-y-0.5 sm:text-4xl md:text-5xl">
+              <h1 className="group cursor-default text-balance text-3xl font-semibold leading-[1.08] tracking-tight text-[var(--pm-text)] transition-transform duration-300 will-change-transform group-hover:-translate-y-0.5 hover:-translate-y-0.5 sm:text-4xl md:text-5xl">
                 Property management,{" "}
                 <span className="relative inline-block">
                   <span
@@ -340,7 +373,7 @@ export function PropManageEarlyAccess() {
                   />
                 </span>
               </h1>
-              <p className="mx-auto mt-5 max-w-xl text-pretty text-base text-slate-400 sm:text-lg">
+              <p className="mx-auto mt-5 max-w-xl text-pretty text-base text-[var(--pm-text-secondary)] sm:text-lg">
                 {TAGLINE_PARTS.map((part, index) => (
                   <span
                     key={part.key}
@@ -350,7 +383,7 @@ export function PropManageEarlyAccess() {
                     {part.lead}
                     <span
                       className="font-semibold"
-                      style={{ color: "#b3a8ff" }}
+                      style={{ color: "var(--pm-accent-text)" }}
                     >
                       {part.key}
                     </span>
@@ -362,7 +395,7 @@ export function PropManageEarlyAccess() {
                 {HERO_FEATURES.map(({ icon: Icon, label }) => (
                   <li
                     key={label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-[var(--pm-border)] bg-[var(--pm-chip)] px-3 py-1.5 text-xs font-medium text-[var(--pm-text-strong)]"
                   >
                     <Icon
                       className="size-3.5"
@@ -383,17 +416,17 @@ export function PropManageEarlyAccess() {
                   style={{ backgroundColor: `${BRAND}26` }}
                 >
                   {/* Visual — abstract digital vault ledger. */}
-                  <div className="relative flex flex-col items-center justify-center gap-7 bg-[#070707] p-8 sm:p-10">
+                  <div className="relative flex flex-col items-center justify-center gap-7 bg-[var(--pm-panel)] p-8 sm:p-10">
                     {isLaunchEventAttendee && <LaunchEventBadge />}
                     <PropertyDashboard />
-                    <p className="max-w-xs text-center text-sm leading-relaxed text-slate-400">
+                    <p className="max-w-xs text-center text-sm leading-relaxed text-[var(--pm-text-secondary)]">
                       Every property, tenancy and payment — live in one
                       dashboard, updated in real time.
                     </p>
                   </div>
 
                   {/* Form / success panel. */}
-                  <div className="flex flex-col justify-center bg-[#070707] p-8 sm:p-10">
+                  <div className="flex flex-col justify-center bg-[var(--pm-panel)] p-8 sm:p-10">
                     {submitted ? (
                       <SuccessState accountType={accountType} email={email} />
                     ) : (
@@ -423,17 +456,17 @@ export function PropManageEarlyAccess() {
         {/* ---------------------------------------------------------------- */}
         {/*  Trust band — headline metrics                                   */}
         {/* ---------------------------------------------------------------- */}
-        <section className="border-y border-white/5 bg-white/[0.015] px-6 py-12">
+        <section className="border-y border-[var(--pm-border-faint)] bg-[var(--pm-band)] px-6 py-12">
           <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 text-center sm:grid-cols-4">
             {STATS.map((stat) => (
               <div key={stat.label}>
                 <div
                   className="text-3xl font-semibold tracking-tight sm:text-4xl"
-                  style={{ color: "#b3a8ff" }}
+                  style={{ color: "var(--pm-accent-text)" }}
                 >
                   {stat.value}
                 </div>
-                <div className="mt-1.5 text-xs uppercase tracking-wider text-slate-500">
+                <div className="mt-1.5 text-xs uppercase tracking-wider text-[var(--pm-text-muted)]">
                   {stat.label}
                 </div>
               </div>
@@ -451,26 +484,26 @@ export function PropManageEarlyAccess() {
               title="Everything your portfolio needs, in one place."
               subtitle="Lettings, accounting, maintenance and compliance — one connected ledger instead of a dozen disconnected tools."
             />
-            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-[var(--pm-border)] bg-[var(--pm-divider)] sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map(({ icon: Icon, title, desc }) => (
                 <div
                   key={title}
-                  className="group bg-[#070707] p-7 transition-colors hover:bg-[#0a0a0a]"
+                  className="group bg-[var(--pm-panel)] p-7 transition-colors hover:bg-[var(--pm-panel-hover)]"
                 >
                   <span
                     className="inline-flex size-11 items-center justify-center rounded-xl border transition-colors"
                     style={{
                       borderColor: `${BRAND}33`,
                       backgroundColor: `${BRAND}14`,
-                      color: "#b3a8ff",
+                      color: "var(--pm-accent-text)",
                     }}
                   >
                     <Icon className="size-5" aria-hidden />
                   </span>
-                  <h3 className="mt-5 text-base font-semibold text-white">
+                  <h3 className="mt-5 text-base font-semibold text-[var(--pm-text)]">
                     {title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--pm-text-secondary)]">
                     {desc}
                   </p>
                 </div>
@@ -493,25 +526,23 @@ export function PropManageEarlyAccess() {
               {AUDIENCES.map((audience) => (
                 <div
                   key={audience.name}
-                  className="flex flex-col rounded-2xl border border-white/10 bg-[#070707] p-7 transition-colors hover:border-[color:var(--pm-brand)]"
-                  style={
-                    { "--pm-brand": `${BRAND}66` } as React.CSSProperties
-                  }
+                  className="flex flex-col rounded-2xl border border-[var(--pm-border)] bg-[var(--pm-panel)] p-7 transition-colors hover:border-[color:var(--pm-brand)]"
+                  style={{ "--pm-brand": `${BRAND}66` } as React.CSSProperties}
                 >
                   <span
                     className="text-xs font-medium uppercase tracking-[0.18em]"
-                    style={{ color: "#b3a8ff" }}
+                    style={{ color: "var(--pm-accent-text)" }}
                   >
                     {audience.tagline}
                   </span>
-                  <h3 className="mt-2 text-xl font-semibold text-white">
+                  <h3 className="mt-2 text-xl font-semibold text-[var(--pm-text)]">
                     {audience.name}
                   </h3>
                   <ul className="mt-5 space-y-3">
                     {audience.points.map((point) => (
                       <li
                         key={point}
-                        className="flex items-start gap-2.5 text-sm text-slate-300"
+                        className="flex items-start gap-2.5 text-sm text-[var(--pm-text-strong)]"
                       >
                         <Check
                           className="mt-0.5 size-4 shrink-0"
@@ -540,13 +571,19 @@ export function PropManageEarlyAccess() {
               background: `radial-gradient(ellipse 80% 120% at 50% 0%, ${BRAND}1f, transparent 70%)`,
             }}
           >
-            <h2 className="text-balance text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            <h2 className="text-balance text-2xl font-semibold tracking-tight text-[var(--pm-text)] sm:text-3xl">
               Be first to the future of property management.
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-pretty text-slate-400">
+            <p className="mx-auto mt-3 max-w-lg text-pretty text-[var(--pm-text-secondary)]">
               Join the private launch cohort — the{" "}
-              <span className="font-semibold text-white">first 30 members</span>{" "}
-              get <span className="font-semibold" style={{ color: "#b3a8ff" }}>
+              <span className="font-semibold text-[var(--pm-text)]">
+                first 30 members
+              </span>{" "}
+              get{" "}
+              <span
+                className="font-semibold"
+                style={{ color: "var(--pm-accent-text)" }}
+              >
                 30 days free
               </span>
               , plus early-access pricing before public release.
@@ -567,14 +604,21 @@ export function PropManageEarlyAccess() {
       </main>
 
       {/* Sticky page footer — tagline, Sterlix attribution + website link. */}
-      <footer className="mt-auto border-t border-white/5 px-6 py-10 text-center">
-        <p className="text-sm tracking-wide text-slate-400">{TAGLINE}</p>
+      <footer className="mt-auto border-t border-[var(--pm-border-faint)] px-6 py-10 text-center">
+        <p className="text-sm tracking-wide text-[var(--pm-text-secondary)]">
+          {TAGLINE}
+        </p>
         <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-[var(--pm-text-muted)]">
             A product by{" "}
-            <span className="font-medium text-slate-300">{COMPANY}</span>
+            <span className="font-medium text-[var(--pm-text-strong)]">
+              {COMPANY}
+            </span>
           </span>
-          <span aria-hidden className="hidden text-slate-700 sm:inline">
+          <span
+            aria-hidden
+            className="hidden text-[var(--pm-text-faintest)] sm:inline"
+          >
             ·
           </span>
           <a
@@ -582,13 +626,13 @@ export function PropManageEarlyAccess() {
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
-            style={{ color: "#b3a8ff" }}
+            style={{ color: "var(--pm-accent-text)" }}
           >
             Check out our website
             <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>
-        <p className="mt-6 text-xs tracking-widest text-slate-600">
+        <p className="mt-6 text-xs tracking-widest text-[var(--pm-text-faint)]">
           © {new Date().getFullYear()} {COMPANY} · ALL RIGHTS RESERVED
         </p>
       </footer>
@@ -599,6 +643,57 @@ export function PropManageEarlyAccess() {
 /* -------------------------------------------------------------------------- */
 /*  Pieces                                                                    */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * Floating light/dark switch. Uses the global next-themes class strategy, so a
+ * visitor's choice persists and the whole page re-themes via the scoped CSS
+ * variables. Mounted-guarded to avoid a hydration flash.
+ */
+function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={
+        mounted
+          ? `Switch to ${isDark ? "light" : "dark"} mode`
+          : "Toggle colour mode"
+      }
+      className="fixed right-4 top-4 z-50 inline-flex size-10 items-center justify-center rounded-full border backdrop-blur-md transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2"
+      style={{
+        borderColor: `${BRAND}40`,
+        backgroundColor: `${BRAND}14`,
+        color: "var(--pm-accent-text)",
+      }}
+    >
+      <Sun
+        className={cn(
+          "size-4 transition-all",
+          mounted && isDark
+            ? "scale-0 -rotate-90 opacity-0"
+            : "scale-100 rotate-0 opacity-100",
+        )}
+        aria-hidden
+      />
+      <Moon
+        className={cn(
+          "absolute size-4 transition-all",
+          mounted && isDark
+            ? "scale-100 rotate-0 opacity-100"
+            : "scale-0 rotate-90 opacity-0",
+        )}
+        aria-hidden
+      />
+    </button>
+  );
+}
 
 /**
  * Brand wordmark — a building mark in a glowing indigo tile beside the
@@ -618,11 +713,14 @@ function BrandLockup() {
       >
         <Building2 className="size-5" />
       </span>
-      <span className="text-lg font-semibold tracking-tight text-white sm:text-xl">
-        Prop<span style={{ color: "#b3a8ff" }}>Manage</span>
+      <span className="text-lg font-semibold tracking-tight text-[var(--pm-text)] sm:text-xl">
+        Prop<span style={{ color: "var(--pm-accent-text)" }}>Manage</span>
         <span
           className="ml-1.5 rounded-md px-1.5 py-0.5 align-middle text-[10px] font-bold tracking-wider"
-          style={{ backgroundColor: `${BRAND}26`, color: "#b3a8ff" }}
+          style={{
+            backgroundColor: `${BRAND}26`,
+            color: "var(--pm-accent-text)",
+          }}
         >
           UK
         </span>
@@ -644,14 +742,16 @@ function SectionHeading({
     <div className="mx-auto max-w-2xl text-center">
       <span
         className="text-xs font-medium uppercase tracking-[0.22em]"
-        style={{ color: "#b3a8ff" }}
+        style={{ color: "var(--pm-accent-text)" }}
       >
         {eyebrow}
       </span>
-      <h2 className="mt-3 text-balance text-2xl font-semibold tracking-tight text-white sm:text-3xl md:text-4xl">
+      <h2 className="mt-3 text-balance text-2xl font-semibold tracking-tight text-[var(--pm-text)] sm:text-3xl md:text-4xl">
         {title}
       </h2>
-      <p className="mt-4 text-pretty text-slate-400">{subtitle}</p>
+      <p className="mt-4 text-pretty text-[var(--pm-text-secondary)]">
+        {subtitle}
+      </p>
     </div>
   );
 }
@@ -678,7 +778,9 @@ function ObsidianSheet({ children }: { children: React.ReactNode }) {
         aria-hidden
         className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/[0.05] via-transparent to-white/[0.02]"
       />
-      <div className="relative rounded-[15px] bg-[#070707]">{children}</div>
+      <div className="relative rounded-[15px] bg-[var(--pm-panel)]">
+        {children}
+      </div>
     </div>
   );
 }
@@ -690,7 +792,7 @@ function LaunchEventBadge() {
       style={{
         borderColor: `${BRAND}66`,
         backgroundColor: `${BRAND}1a`,
-        color: "#b3a8ff",
+        color: "var(--pm-accent-text)",
       }}
     >
       <Sparkles className="size-3.5" aria-hidden />
@@ -719,7 +821,7 @@ function SelectField({
     <div>
       <label
         htmlFor={id}
-        className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-slate-400"
+        className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-[var(--pm-text-secondary)]"
       >
         {label}
       </label>
@@ -729,7 +831,7 @@ function SelectField({
           required
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="w-full appearance-none rounded-lg border border-white/10 bg-white/[0.02] py-3 pl-4 pr-10 text-sm focus:outline-none [&>option]:bg-[#0b0b0e] [&>option]:text-white"
+          className="w-full appearance-none rounded-lg border border-[var(--pm-border)] bg-[var(--pm-field)] py-3 pl-4 pr-10 text-sm focus:outline-none [&>option]:bg-[var(--pm-card)] [&>option]:text-[var(--pm-text)]"
           style={{ color: value ? "#fff" : "#64748b" }}
         >
           <option value="" disabled>
@@ -742,7 +844,7 @@ function SelectField({
           ))}
         </select>
         <ChevronDown
-          className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-500"
+          className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-[var(--pm-text-muted)]"
           aria-hidden
         />
       </div>
@@ -786,11 +888,12 @@ function EarlyAccessForm({
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight text-white">
+        <h2 className="text-xl font-semibold tracking-tight text-[var(--pm-text)]">
           Claim your early access
         </h2>
-        <p className="mt-1.5 text-sm text-slate-400">
-          Reserve your place in the private launch cohort.
+        <p className="mt-1.5 text-sm text-[var(--pm-text-secondary)]">
+          Fill in your details below to join the private launch cohort and get
+          early-access pricing before public release.
         </p>
       </div>
 
@@ -799,17 +902,29 @@ function EarlyAccessForm({
         className="flex items-center gap-3 rounded-lg border px-3.5 py-3"
         style={{ borderColor: `${BRAND}40`, backgroundColor: `${BRAND}14` }}
       >
-        <Gift className="size-5 shrink-0" style={{ color: "#b3a8ff" }} aria-hidden />
-        <p className="text-xs leading-relaxed text-slate-300">
-          <span className="font-semibold text-white">First 30 members</span>{" "}
-          get <span className="font-semibold" style={{ color: "#b3a8ff" }}>30
-          days free</span> — full software access, no card required.
+        <Gift
+          className="size-5 shrink-0"
+          style={{ color: "var(--pm-accent-text)" }}
+          aria-hidden
+        />
+        <p className="text-xs leading-relaxed text-[var(--pm-text-strong)]">
+          <span className="font-semibold text-[var(--pm-text)]">
+            First 30 members
+          </span>{" "}
+          get{" "}
+          <span
+            className="font-semibold"
+            style={{ color: "var(--pm-accent-text)" }}
+          >
+            30 days free
+          </span>{" "}
+          — full software access, no card required.
         </p>
       </div>
 
       {/* Account type — accessible segmented radio group. */}
       <fieldset>
-        <legend className="mb-2.5 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+        <legend className="mb-2.5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--pm-text-secondary)]">
           I am a…
         </legend>
         <div role="radiogroup" className="grid gap-2.5">
@@ -835,8 +950,8 @@ function EarlyAccessForm({
                   "flex items-center justify-between rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                   "focus-visible:outline-none focus-visible:ring-2",
                   selected
-                    ? "text-white"
-                    : "border-white/10 bg-white/[0.02] text-slate-400 hover:border-white/20 hover:text-white",
+                    ? "text-[var(--pm-text)]"
+                    : "border-[var(--pm-border)] bg-[var(--pm-field)] text-[var(--pm-text-secondary)] hover:border-[var(--pm-border-strong)] hover:text-[var(--pm-text)]",
                 )}
               >
                 {type}
@@ -887,13 +1002,13 @@ function EarlyAccessForm({
       <div>
         <label
           htmlFor="early-access-name"
-          className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-slate-400"
+          className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-[var(--pm-text-secondary)]"
         >
           Full name or company name
         </label>
         <div className="relative">
           <Building2
-            className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-500"
+            className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[var(--pm-text-muted)]"
             aria-hidden
           />
           <input
@@ -904,7 +1019,7 @@ function EarlyAccessForm({
             value={name}
             onChange={(event) => onNameChange(event.target.value)}
             placeholder="Jordan Patel or Patel Lettings Ltd"
-            className="w-full rounded-lg border border-white/10 bg-white/[0.02] py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 transition-colors focus:outline-none"
+            className="w-full rounded-lg border border-[var(--pm-border)] bg-[var(--pm-field)] py-3 pl-10 pr-4 text-sm text-[var(--pm-text)] placeholder:text-[var(--pm-text-faint)] transition-colors focus:outline-none"
             style={{ caretColor: BRAND }}
           />
         </div>
@@ -914,13 +1029,13 @@ function EarlyAccessForm({
       <div>
         <label
           htmlFor="early-access-email"
-          className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-slate-400"
+          className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-[var(--pm-text-secondary)]"
         >
           Work email
         </label>
         <div className="relative">
           <Mail
-            className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-500"
+            className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[var(--pm-text-muted)]"
             aria-hidden
           />
           <input
@@ -930,7 +1045,7 @@ function EarlyAccessForm({
             value={email}
             onChange={(event) => onEmailChange(event.target.value)}
             placeholder="you@company.co.uk"
-            className="w-full rounded-lg border border-white/10 bg-white/[0.02] py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 transition-colors focus:outline-none"
+            className="w-full rounded-lg border border-[var(--pm-border)] bg-[var(--pm-field)] py-3 pl-10 pr-4 text-sm text-[var(--pm-text)] placeholder:text-[var(--pm-text-faint)] transition-colors focus:outline-none"
             style={{ caretColor: BRAND }}
           />
         </div>
@@ -1017,22 +1132,24 @@ function SuccessState({
       </span>
 
       <h2
-        className="pm-rise mt-6 text-2xl font-bold tracking-tight text-white"
+        className="pm-rise mt-6 text-2xl font-bold tracking-tight text-[var(--pm-text)]"
         style={{ animationDelay: "0.15s" }}
       >
         Thank you — you’re on the list!
       </h2>
       <p
-        className="pm-rise mt-2 max-w-xs text-pretty text-base text-slate-400"
+        className="pm-rise mt-2 max-w-xs text-pretty text-base text-[var(--pm-text-secondary)]"
         style={{ animationDelay: "0.28s" }}
       >
         Check your inbox shortly. We’ll email your early-access invite to{" "}
-        <span className="font-medium text-white">{email || "you"}</span> the
-        moment your spot opens.
+        <span className="font-medium text-[var(--pm-text)]">
+          {email || "you"}
+        </span>{" "}
+        the moment your spot opens.
       </p>
       <p
         className="pm-rise mt-6 text-xs uppercase tracking-[0.18em]"
-        style={{ color: "#9c8eff", animationDelay: "0.4s" }}
+        style={{ color: "var(--pm-accent-text)", animationDelay: "0.4s" }}
       >
         {accountType} · Early Access
       </p>
@@ -1053,10 +1170,12 @@ function KpiRow({
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <span className="text-xs text-slate-400">{label}</span>
-        <span className="text-xs font-semibold text-white">{value}</span>
+        <span className="text-xs text-[var(--pm-text-secondary)]">{label}</span>
+        <span className="text-xs font-semibold text-[var(--pm-text)]">
+          {value}
+        </span>
       </div>
-      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[var(--pm-track)]">
         <div
           className="pm-grow-x h-full rounded-full"
           style={{ width: `${pct}%`, backgroundColor: BRAND }}
@@ -1078,7 +1197,7 @@ function PropertyDashboard() {
 
   return (
     <div
-      className="w-full max-w-[300px] rounded-2xl border border-white/10 bg-[#0b0b0e] p-4 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)]"
+      className="w-full max-w-[300px] rounded-2xl border border-[var(--pm-border)] bg-[var(--pm-card)] p-4 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)]"
       role="img"
       aria-label="PropManage dashboard preview showing rent, occupancy and compliance for a property"
     >
@@ -1090,21 +1209,21 @@ function PropertyDashboard() {
             style={{
               borderColor: `${BRAND}33`,
               backgroundColor: `${BRAND}14`,
-              color: "#b3a8ff",
+              color: "var(--pm-accent-text)",
             }}
           >
             <Building2 className="size-4.5" aria-hidden />
           </span>
           <div>
-            <div className="text-sm font-semibold leading-tight text-white">
+            <div className="text-sm font-semibold leading-tight text-[var(--pm-text)]">
               Riverside Court
             </div>
-            <div className="text-[11px] text-slate-500">
+            <div className="text-[11px] text-[var(--pm-text-muted)]">
               24 flats · London E14
             </div>
           </div>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-300">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--pm-border)] px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[var(--pm-text-strong)]">
           <span
             className="size-1.5 animate-pulse rounded-full"
             style={{ backgroundColor: BRAND }}
@@ -1122,7 +1241,7 @@ function PropertyDashboard() {
       </div>
 
       {/* Mini rent chart. */}
-      <div className="mt-5 rounded-xl border border-white/5 bg-white/[0.02] p-3">
+      <div className="mt-5 rounded-xl border border-[var(--pm-border-faint)] bg-[var(--pm-field)] p-3">
         <div className="flex h-16 items-end gap-1.5">
           {rentBars.map((height, index) => (
             <span
@@ -1137,7 +1256,7 @@ function PropertyDashboard() {
             />
           ))}
         </div>
-        <div className="mt-2 text-[10px] uppercase tracking-wider text-slate-500">
+        <div className="mt-2 text-[10px] uppercase tracking-wider text-[var(--pm-text-muted)]">
           Monthly rent · last 6 months
         </div>
       </div>
