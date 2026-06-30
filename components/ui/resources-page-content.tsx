@@ -3,377 +3,16 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowRight,
-  BarChart3,
-  BookOpen,
-  CheckCircle2,
-  ClipboardList,
-  Download,
-  FileText,
-  Gauge,
-  Globe,
-  Layers,
-  Megaphone,
-  Palette,
-  Search,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2, Search, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { cn } from "@/lib/utils";
-
-// ─── Resource data ─────────────────────────────────────────────────────────
-
-type Resource = {
-  slug: string;
-  category: string;
-  title: string;
-  description: string;
-  format: string;
-  icon: React.ElementType;
-  imageSrc: string;
-  source: string;
-  highlights: string[];
-  ctaLabel: string;
-};
-
-const resources: Resource[] = [
-  {
-    slug: "website-audit",
-    category: "Website",
-    title: "Free Website Audit",
-    description:
-      "Get a detailed performance and conversion snapshot of your site. We identify speed bottlenecks, UX friction points, and missed revenue opportunities.",
-    format: "PDF Report",
-    icon: Gauge,
-    imageSrc:
-      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_website_audit",
-    highlights: [
-      "Core Web Vitals analysis",
-      "Conversion bottleneck mapping",
-      "Mobile experience scorecard",
-    ],
-    ctaLabel: "Get My Website Audit",
-  },
-  {
-    slug: "seo-audit",
-    category: "SEO",
-    title: "Free SEO Audit",
-    description:
-      "Uncover the technical SEO issues and keyword gaps holding your rankings back. Delivered as a prioritised action plan your team can execute immediately.",
-    format: "PDF Report",
-    icon: Search,
-    imageSrc:
-      "https://images.unsplash.com/photo-1555421689-d68471e189f2?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_seo_audit",
-    highlights: [
-      "Technical SEO health check",
-      "Keyword gap analysis",
-      "Backlink opportunity report",
-    ],
-    ctaLabel: "Get My SEO Audit",
-  },
-  {
-    slug: "branding-checklist",
-    category: "Brand",
-    title: "Brand Consistency Checklist",
-    description:
-      "A 40-point checklist to audit your visual identity, tone of voice, and messaging cohesion across every customer touchpoint — from ads to invoices.",
-    format: "Checklist PDF",
-    icon: Palette,
-    imageSrc:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_branding_checklist",
-    highlights: [
-      "Visual identity audit",
-      "Tone of voice guidelines",
-      "Cross-channel messaging review",
-    ],
-    ctaLabel: "Download Checklist",
-  },
-  {
-    slug: "growth-engine-blueprint",
-    category: "Strategy",
-    title: "90-Day Growth Engine Blueprint",
-    description:
-      "The exact execution template we use to align strategy, website, and demand generation into one operating system for fast-scaling businesses.",
-    format: "Strategy Template",
-    icon: Zap,
-    imageSrc:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_growth_engine_blueprint",
-    highlights: [
-      "90-day milestone roadmap",
-      "Channel prioritisation matrix",
-      "Team accountability framework",
-    ],
-    ctaLabel: "Get the Blueprint",
-  },
-  {
-    slug: "saas-mvp-checklist",
-    category: "SaaS",
-    title: "SaaS MVP Launch Checklist",
-    description:
-      "A founder-ready checklist covering pre-launch QA, onboarding activation flow, and release confidence gates for shipping your first SaaS product.",
-    format: "Checklist PDF",
-    icon: ClipboardList,
-    imageSrc:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_saas_mvp_checklist",
-    highlights: [
-      "Pre-launch QA protocol",
-      "Activation flow templates",
-      "Release confidence gates",
-    ],
-    ctaLabel: "Download Checklist",
-  },
-  {
-    slug: "conversion-rate-guide",
-    category: "Conversion",
-    title: "CRO Playbook for B2B Teams",
-    description:
-      "Proven conversion rate optimisation frameworks for B2B landing pages, pricing pages, and sign-up flows — with real before/after examples.",
-    format: "Playbook PDF",
-    icon: BarChart3,
-    imageSrc:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_cro_playbook",
-    highlights: [
-      "Landing page formula",
-      "Pricing page psychology",
-      "Form optimisation tactics",
-    ],
-    ctaLabel: "Download Playbook",
-  },
-  {
-    slug: "digital-marketing-audit",
-    category: "Marketing",
-    title: "Digital Marketing Audit Template",
-    description:
-      "A structured audit template to evaluate your paid, organic, email, and social performance against industry benchmarks across every channel.",
-    format: "Audit Template",
-    icon: Megaphone,
-    imageSrc:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_marketing_audit",
-    highlights: [
-      "Paid channel efficiency scores",
-      "Organic growth benchmarks",
-      "Email performance grades",
-    ],
-    ctaLabel: "Get the Audit Template",
-  },
-  {
-    slug: "design-system-starter",
-    category: "Product",
-    title: "Design System Starter Kit",
-    description:
-      "Token architecture, component documentation templates, and design principles to help product teams build a scalable, dev-ready design system.",
-    format: "Figma + PDF",
-    icon: Layers,
-    imageSrc:
-      "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_design_system_starter",
-    highlights: [
-      "Token architecture guide",
-      "Component documentation template",
-      "Developer handoff checklist",
-    ],
-    ctaLabel: "Download Starter Kit",
-  },
-  {
-    slug: "content-strategy-guide",
-    category: "Content",
-    title: "Content Strategy Playbook",
-    description:
-      "Turn content into a compounding growth asset. Includes editorial calendar templates, topic cluster frameworks, and content ROI measurement models.",
-    format: "Playbook PDF",
-    icon: FileText,
-    imageSrc:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_content_strategy",
-    highlights: [
-      "Editorial calendar template",
-      "Topic cluster architecture",
-      "Content ROI model",
-    ],
-    ctaLabel: "Get the Playbook",
-  },
-  {
-    slug: "global-readiness-checklist",
-    category: "Strategy",
-    title: "Global Expansion Readiness Checklist",
-    description:
-      "A structured readiness framework for businesses preparing to enter new markets — covering localisation, compliance, and digital infrastructure.",
-    format: "Checklist PDF",
-    icon: Globe,
-    imageSrc:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_global_readiness",
-    highlights: [
-      "Market entry readiness score",
-      "Localisation requirements map",
-      "Compliance & legal checklist",
-    ],
-    ctaLabel: "Download Checklist",
-  },
-  {
-    slug: "blog-insights",
-    category: "Learning",
-    title: "Sterlixit Insights Library",
-    description:
-      "Explore our full blog: growth systems, SaaS execution playbooks, conversion optimisation guides, and digital strategy deep-dives.",
-    format: "Free Reading",
-    icon: BookOpen,
-    imageSrc:
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1600&auto=format&fit=crop",
-    source: "resource_insights_library",
-    highlights: [
-      "Strategy deep-dives",
-      "Execution playbooks",
-      "Founder & operator frameworks",
-    ],
-    ctaLabel: "Browse the Blog",
-  },
-];
-
-const CATEGORIES = [
-  "All",
-  ...Array.from(new Set(resources.map((r) => r.category))),
-];
-
-// ─── Lead capture form inside each resource card ────────────────────────────
-
-function ResourceLeadForm({
-  resource,
-  onDone,
-}: {
-  resource: Resource;
-  onDone: () => void;
-}) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
-  const [state, setState] = useState<"idle" | "loading" | "done" | "error">(
-    "idle",
-  );
-
-  const isBlogLink = resource.slug === "blog-insights";
-
-  if (isBlogLink) {
-    return (
-      <Button asChild className="mt-5 w-full rounded-full font-semibold">
-        <Link href="/blog">
-          {resource.ctaLabel} <ArrowRight className="ml-2 size-4" />
-        </Link>
-      </Button>
-    );
-  }
-
-  if (state === "done") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400"
-      >
-        <CheckCircle2 className="size-4 shrink-0" />
-        Check your inbox — it's on its way!
-      </motion.div>
-    );
-  }
-
-  return (
-    <form
-      className="mt-5 space-y-2"
-      onSubmit={async (event) => {
-        event.preventDefault();
-        setState("loading");
-        try {
-          const leadResponse = await fetch("/api/lead", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              resource: resource.title,
-              name,
-              email,
-              company,
-              source: resource.source,
-            }),
-          });
-
-          const newsletterResponse = await fetch("/api/newsletter", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email,
-              source: resource.source,
-              tags: [resource.source, resource.category.toLowerCase()],
-            }),
-          });
-
-          if (leadResponse.ok) {
-            if (!newsletterResponse.ok) {
-              console.warn("Newsletter capture failed for resource lead");
-            }
-            setState("done");
-            onDone();
-          } else {
-            setState("error");
-          }
-        } catch {
-          setState("error");
-        }
-      }}
-    >
-      <Input
-        type="text"
-        placeholder="Your name"
-        required
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-        className="bg-background"
-      />
-      <Input
-        type="email"
-        placeholder="Work email"
-        required
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        className="bg-background"
-      />
-      <Input
-        type="text"
-        placeholder="Company / brand"
-        value={company}
-        onChange={(event) => setCompany(event.target.value)}
-        className="bg-background"
-      />
-      <Button
-        type="submit"
-        disabled={state === "loading"}
-        className="w-full rounded-full font-semibold"
-      >
-        {state === "loading" ? (
-          "Sending..."
-        ) : (
-          <>
-            <Download className="mr-2 size-4" />
-            {resource.ctaLabel}
-          </>
-        )}
-      </Button>
-      {state === "error" ? (
-        <p className="text-xs text-destructive">
-          Could not submit. Please try again.
-        </p>
-      ) : null}
-    </form>
-  );
-}
+import {
+  CATEGORIES,
+  type Resource,
+  resourceHref,
+  resources,
+} from "@/lib/resources";
 
 // ─── Resource card ──────────────────────────────────────────────────────────
 
@@ -384,7 +23,6 @@ function ResourceCard({
   resource: Resource;
   index: number;
 }) {
-  const [claimed, setClaimed] = useState(false);
   const Icon = resource.icon;
 
   return (
@@ -424,7 +62,12 @@ function ResourceCard({
           </div>
           <div>
             <h3 className="text-base font-semibold leading-snug text-foreground">
-              {resource.title}
+              <Link
+                href={resourceHref(resource)}
+                className="transition-colors hover:text-primary"
+              >
+                {resource.title}
+              </Link>
             </h3>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
               {resource.description}
@@ -445,12 +88,15 @@ function ResourceCard({
           ))}
         </ul>
 
-        {/* Lead form — pushed to bottom */}
-        <div className="mt-auto">
-          <ResourceLeadForm
-            resource={resource}
-            onDone={() => setClaimed(true)}
-          />
+        {/* CTA — a real, crawlable link to the resource's landing page (D-04),
+            replacing the old JS-only form-submit button. */}
+        <div className="mt-auto pt-5">
+          <Button asChild className="w-full rounded-full font-semibold">
+            <Link href={resourceHref(resource)}>
+              {resource.ctaLabel}
+              <ArrowRight className="ml-2 size-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </motion.div>
@@ -552,11 +198,13 @@ export function ResourcesPageContent() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 max-w-sm">
-                <ResourceLeadForm
-                  resource={featured}
-                  onDone={() => undefined}
-                />
+              <div className="mt-6">
+                <Button asChild className="rounded-full px-6 font-semibold">
+                  <Link href={resourceHref(featured)}>
+                    {featured.ctaLabel}
+                    <ArrowRight className="ml-2 size-4" />
+                  </Link>
+                </Button>
               </div>
             </div>
 

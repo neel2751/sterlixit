@@ -233,8 +233,16 @@ function FaqAccordionItem({
             </span>
           </AccordionPrimitive.Trigger>
         </AccordionPrimitive.Header>
-        <AccordionPrimitive.Content className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-          <p className="pb-5 leading-7 text-muted-foreground">{item.a}</p>
+        {/* `forceMount` keeps the answer in the DOM so it ships in the
+            server-rendered HTML for SEO / AI crawlers (D-02). Collapse is
+            handled purely via CSS on `data-state`, never mount/unmount. */}
+        <AccordionPrimitive.Content
+          forceMount
+          className="grid grid-rows-[0fr] overflow-hidden text-sm transition-[grid-template-rows] duration-300 ease-out data-[state=open]:grid-rows-[1fr] motion-reduce:transition-none"
+        >
+          <div className="min-h-0 overflow-hidden">
+            <p className="pb-5 leading-7 text-muted-foreground">{item.a}</p>
+          </div>
         </AccordionPrimitive.Content>
       </AccordionPrimitive.Item>
     </motion.div>
@@ -269,6 +277,25 @@ export function FaqPageContent() {
 
   return (
     <main className="min-h-screen bg-background">
+      {/* FAQPage JSON-LD — emits every question/answer into the raw HTML so
+          Google rich results and AI crawlers (ChatGPT, Perplexity) get the
+          full answer set regardless of which category tab is active (D-12). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQ_CATEGORIES.flatMap((cat) =>
+              cat.items.map((item) => ({
+                "@type": "Question",
+                name: item.q,
+                acceptedAnswer: { "@type": "Answer", text: item.a },
+              })),
+            ),
+          }),
+        }}
+      />
       <SiteHeader />
 
       {/* ── Hero ─────────────────────────────────────────────────── */}

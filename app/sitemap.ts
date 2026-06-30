@@ -7,8 +7,9 @@ import {
   legalPages,
   portfolioItems,
 } from "@/lib/site-data";
+import { getLandingResources } from "@/lib/resources";
 
-const siteUrl = "https://sterlixit.co.uk";
+const siteUrl = "https://www.sterlixit.co.uk";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -151,6 +152,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
+  const resourceUrls: MetadataRoute.Sitemap = getLandingResources().map(
+    (resource) => ({
+      url: `${siteUrl}/resources/${resource.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }),
+  );
+
   return [
     ...staticPages,
     ...serviceUrls,
@@ -158,5 +168,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...blogUrls,
     ...industryUrls,
     ...legalUrls,
+    ...resourceUrls,
   ];
 }

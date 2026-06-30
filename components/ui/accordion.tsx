@@ -52,13 +52,20 @@ function AccordionContent({
   children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+  // `forceMount` keeps the answer in the DOM at all times (so it ships in the
+  // server-rendered HTML for SEO / AI crawlers — see D-02). Visibility is
+  // toggled purely via CSS using `data-state`, animating grid-template-rows
+  // between 0fr (collapsed) and 1fr (expanded) — never mount/unmount.
   return (
     <AccordionPrimitive.Content
+      forceMount
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+      className="grid grid-rows-[0fr] overflow-hidden text-sm transition-[grid-template-rows] duration-300 ease-out data-[state=open]:grid-rows-[1fr] motion-reduce:transition-none"
       {...props}
     >
-      <div className={cn('pt-0 pb-4', className)}>{children}</div>
+      <div className="min-h-0 overflow-hidden">
+        <div className={cn('pt-0 pb-4', className)}>{children}</div>
+      </div>
     </AccordionPrimitive.Content>
   )
 }

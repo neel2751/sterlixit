@@ -168,6 +168,43 @@ export function generateStaticParams() {
   return industries.map((industry) => ({ slug: industry.slug }));
 }
 
+// Unique, keyword-rich metadata per industry so the six sub-pages no longer
+// share a single templated title/description (D-10). Titles omit the brand
+// suffix — the root layout's `%s | Sterlixit` template appends it.
+const industryMeta: Record<string, { title: string; description: string }> = {
+  startups: {
+    title:
+      "Startup Digital Agency UK | MVP Development & Branding for Startups",
+    description:
+      "Sterlixit helps UK startups launch fast with MVP development, investor-ready branding, and lean growth systems built for limited runway.",
+  },
+  "e-commerce": {
+    title: "E-Commerce Digital Agency UK | Conversion & Checkout Optimisation",
+    description:
+      "Sterlixit builds high-converting e-commerce stores for UK retailers — solving checkout friction, scaling paid acquisition, and improving repeat purchase rates.",
+  },
+  healthcare: {
+    title: "Healthcare Digital Agency UK | Secure, Compliance-Aware Web & SaaS",
+    description:
+      "Sterlixit builds secure, compliance-aware websites and SaaS platforms for UK healthcare providers — covering patient UX, audit trails, and governance.",
+  },
+  "real-estate": {
+    title: "Real Estate & PropTech Digital Agency UK | Sterlixit",
+    description:
+      "Sterlixit builds lead-generation websites and PropTech platforms for UK real estate businesses — solving lead fragmentation, slow performance, and brand inconsistency.",
+  },
+  education: {
+    title: "Education & EdTech Digital Agency UK | Sterlixit",
+    description:
+      "Sterlixit builds enrollment-ready websites and LMS platforms for UK education providers — fixing funnel drop-offs, outdated student UX, and content discoverability.",
+  },
+  "saas-companies": {
+    title: "SaaS Growth Agency UK | Activation, Retention & Product Velocity",
+    description:
+      "Sterlixit helps UK SaaS companies fix activation bottlenecks, reduce churn, and scale product velocity with cloud-native engineering and lifecycle marketing.",
+  },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -175,22 +212,25 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const industry = industries.find((item) => item.slug === slug);
-  return {
-    title: industry
-      ? `${industry.title} Industry Solutions`
-      : "Industry Solutions",
-    description: industry
+  const meta = industryMeta[slug];
+
+  const title =
+    meta?.title ??
+    (industry ? `${industry.title} Industry Solutions` : "Industry Solutions");
+  const description =
+    meta?.description ??
+    (industry
       ? `Sterlixit delivers tailored digital strategy and execution for the ${industry.title.toLowerCase()} sector.`
-      : "Industry-specific digital strategies and execution from Sterlixit.",
+      : "Industry-specific digital strategies and execution from Sterlixit.");
+
+  return {
+    title,
+    description,
     alternates: { canonical: `/industries/${slug}` },
     openGraph: {
-      title: industry
-        ? `${industry.title} Industry Solutions | Sterlixit`
-        : "Industry Solutions | Sterlixit",
-      description: industry
-        ? `Sterlixit delivers tailored digital strategy and execution for the ${industry.title.toLowerCase()} sector.`
-        : "Industry-specific digital strategies and execution from Sterlixit.",
-      url: `https://sterlixit.co.uk/industries/${slug}`,
+      title: `${title} | Sterlixit`,
+      description,
+      url: `https://www.sterlixit.co.uk/industries/${slug}`,
     },
   };
 }

@@ -1,4 +1,6 @@
-const siteUrl = "https://sterlixit.co.uk";
+// Matches the root layout metadataBase / rendered canonical URLs (www) so
+// breadcrumb entity URLs stay consistent with the Organization schema (D-12).
+const siteUrl = "https://www.sterlixit.co.uk";
 
 export function BreadcrumbSchema({
   items,

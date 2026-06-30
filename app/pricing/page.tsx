@@ -36,15 +36,17 @@ import {
 } from "@/components/ui/cta-with-text-marquee";
 
 export const metadata: Metadata = {
-  title: "Investment | Your Vision. Engineered for ROI.",
+  // Note: the root layout applies a `%s | Sterlixit` title template, so the
+  // document title omits the brand suffix to avoid doubling it (D-09).
+  title: "Web Design & SaaS Development Pricing UK | Sterlixit",
   description:
-    "Explore Sterlixit investment models for branding, web engineering, custom SaaS, marketing, and long-term support. ROI-focused engagement structures built to scale with your revenue.",
+    "Compare Sterlixit's project, retainer, and dedicated-team pricing for web design, branding, and custom SaaS development. Get a tailored UK quote in 24 hours.",
   alternates: { canonical: "/pricing" },
   openGraph: {
-    title: "Investment Models | Sterlixit",
+    title: "Web Design & SaaS Development Pricing UK | Sterlixit",
     description:
-      "ROI-first digital investment models spanning launch builds, growth retainers, and dedicated product teams.",
-    url: "https://sterlixit.co.uk/pricing",
+      "Compare Sterlixit's project, retainer, and dedicated-team pricing for web design, branding, and custom SaaS development in the UK.",
+    url: "https://www.sterlixit.co.uk/pricing",
   },
 };
 

@@ -1,54 +1,3 @@
-/*
- * ─────────────────────────────────────────────────────────────────────────────
- * OLD ABOUT PAGE (commented out — preserved for reference)
- * ─────────────────────────────────────────────────────────────────────────────
- *
- * import type { Metadata } from "next";
- * import {
- *   StandardPageLayout,
- *   SimpleCardsSection,
- * } from "@/components/page-primitives";
- * import { SiteSection } from "@/components/site-shell";
- *
- * export const metadata: Metadata = {
- *   title: "About Us",
- *   description:
- *     "Sterlixit is a strategy-led digital agency helping businesses build, launch, and scale high-performing digital experiences through branding, engineering, and growth systems.",
- *   alternates: { canonical: "/about" },
- *   openGraph: {
- *     title: "About Us | Sterlixit",
- *     description:
- *       "Sterlixit is a strategy-led digital agency helping businesses build, launch, and scale high-performing digital experiences through branding, engineering, and growth systems.",
- *     url: "https://sterlixit.co.uk/about",
- *   },
- * };
- *
- * export default function AboutPage() {
- *   return (
- *     <StandardPageLayout
- *       title="About Sterlixit"
- *       subtitle="We are a strategy-led digital partner helping businesses build, launch, and scale high-performing digital experiences."
- *       breadcrumbs={[
- *         { name: "Home", href: "/" },
- *         { name: "About", href: "/about" },
- *       ]}
- *     >
- *       <SimpleCardsSection title="Company Introduction" items={["Founded to bridge strategy and execution","Cross-functional experts in design, engineering, and growth","Serving startups to enterprise teams"]} />
- *       <SimpleCardsSection title="Our Mission" items={["Build digital systems that produce measurable business outcomes"]} />
- *       <SimpleCardsSection title="Our Vision" items={["Become the most trusted growth execution partner for modern businesses"]} />
- *       <SimpleCardsSection title="Our Core Values" items={["Ownership","Clarity","Speed with quality","Outcome obsession","Continuous improvement"]} />
- *       <SimpleCardsSection title="Meet The Team" items={["Strategy Leads","Product Designers","Full-stack Developers","Growth Marketers","Support Engineers"]} />
- *       <SimpleCardsSection title="Our Journey / Timeline" items={["Year 1: Foundation","Year 2: Service expansion","Year 3: SaaS and cloud specialization","Year 4+: Multi-industry growth engagements"]} />
- *       <SimpleCardsSection title="Why Clients Trust Us" items={["Transparent process","Data-backed decisions","Reliable delivery cadence","Post-launch support"]} />
- *       <SimpleCardsSection title="Certifications / Tools We Use" items={["AWS","Shopify","WordPress","React","Google Analytics","Meta Ads"]} />
- *       <SiteSection title="CTA Section" description="Discuss your roadmap with our team.">
- *         <p className="text-muted-foreground">Book a free consultation to identify quick wins and long-term growth opportunities.</p>
- *       </SiteSection>
- *     </StandardPageLayout>
- *   );
- * }
- */
-
 // ─────────────────────────────────────────────────────────────────────────────
 // NEW ABOUT PAGE — 8-section redesign matching homepage design system
 // ─────────────────────────────────────────────────────────────────────────────
@@ -81,15 +30,16 @@ import {
 } from "@/components/site-shell";
 
 export const metadata: Metadata = {
-  title: "About Us | Sterlixit — A Decade of Tech Expertise",
+  title:
+    "About Sterlixit | Digital Agency Founded in London | 10+ Years Experience ",
   description:
-    "Sterlixit was founded with a clear purpose: to help ambitious businesses grow through expert digital delivery, custom software, and long-term partnership. Discover our story, leadership, and how we work.",
+    "Meet the team behind Sterlixit, a London-based digital agency. Founded in 2025 by 10-year industry veterans delivering web design, branding, and custom SaaS.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About Sterlixit | The People and Purpose Behind Our Work",
     description:
       "Sterlixit was built to deliver expert digital solutions, real software, and long-term growth partnerships. Meet the founders and learn how we operate.",
-    url: "https://sterlixit.co.uk/about",
+    url: "https://www.sterlixit.co.uk/about",
   },
 };
 
@@ -449,15 +399,16 @@ export default function AboutPage() {
             <div className="mb-12 text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3.5 py-1.5 text-sm font-medium text-primary">
                 <CheckCircle2 className="size-3.5" />
-                Numbers That Prove It
+                Senior Execution From Day One
               </div>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                10 Years In. Zero Beginner Mistakes.
+                Our Founders Bring 10+ Years of Enterprise Experience.
               </h2>
               <p className="mt-4 mx-auto max-w-2xl text-muted-foreground">
-                We entered the market with a decade of enterprise experience
-                already applied. These numbers reflect a team that has done the
-                hard work long before launching a company.
+                Sterlixit was founded in 2025, but our founders entered the
+                market with a decade of individual enterprise experience already
+                applied. These numbers reflect a team that did the hard work
+                long before launching the company.
               </p>
             </div>
           </AnimatedReveal>

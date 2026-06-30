@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = "https://sterlixit.co.uk";
+const siteUrl = "https://www.sterlixit.co.uk";
 const blockedPaths = ["/api/", "/demo/"];
 
 export default function robots(): MetadataRoute.Robots {

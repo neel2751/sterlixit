@@ -81,7 +81,7 @@ const BRAND = "#4f39f6";
 
 /** PropManage is a product of Sterlix IT Ltd. */
 const COMPANY = "Sterlix IT Ltd";
-const WEBSITE_URL = "https://sterlixit.co.uk";
+const WEBSITE_URL = "https://www.sterlixit.co.uk";
 
 const TAGLINE =
   "No endless paperwork. No digital clutter. No unnecessary complexity.";

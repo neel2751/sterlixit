@@ -17,7 +17,6 @@ import {
   Cpu,
   Database,
   Globe,
-  Layers3,
   Lock,
   Rocket,
   Server,
@@ -206,12 +205,19 @@ const caseStudies: CaseStudyItem[] = [
 ];
 
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [value, setValue] = useState(0);
+  // Initialise to the REAL value so it ships in the server-rendered HTML for
+  // crawlers, Googlebot's no-script pass, and JS-disabled users (D-03). The
+  // count-up animation re-runs from 0 when the element scrolls into view, but
+  // the DOM default is never literally "0".
+  const [value, setValue] = useState(target);
   const ref = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+
+    // Respect reduced-motion: leave the real value in place, skip the count-up.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
     let started = false;
     const observer = new IntersectionObserver(
@@ -239,8 +245,10 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
     return () => observer.disconnect();
   }, [target]);
 
+  // aria-label stays fixed at the real value so assistive tech never reads a
+  // mid-animation number.
   return (
-    <span ref={ref}>
+    <span ref={ref} aria-label={`${target}${suffix}`}>
       {value}
       {suffix}
     </span>
@@ -771,8 +779,7 @@ export function CaseStudiesPageContent() {
     const imageBySlug: Record<string, string> = {
       "brickjourney-logistics":
         "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=2670&auto=format&fit=crop",
-      "cdc-construction":
-        "https://cdc.construction/images/projects/Comm/Regent_House/1.jpg",
+      "cdc-construction": "/case-studies/cdc-construction/hero.jpg",
       lomashwood:
         "https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=2670&auto=format&fit=crop",
       "cdc-property":

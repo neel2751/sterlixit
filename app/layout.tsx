@@ -5,6 +5,8 @@ import Script from "next/script";
 import { publicIntegrationConfig } from "@/lib/integrations";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { JsonLd } from "@/components/json-ld";
+import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
@@ -13,10 +15,11 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const siteUrl = "https://sterlixit.co.uk";
-const defaultTitle = "Sterlixit | Strategy-First Digital Growth Company";
+const siteUrl = "https://www.sterlixit.co.uk";
+const defaultTitle =
+  "Web Design, Branding & SaaS Development Agency UK | Sterlixit ";
 const defaultDescription =
-  "Sterlixit helps brands scale with strategy-first branding, web development, SaaS product engineering, and conversion-focused digital marketing.";
+  "UK digital agency for web design, branding and custom SaaS development. Strategy-first delivery for startups and growth-stage businesses. Book a free call. ";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -32,16 +35,8 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   category: "technology",
   authors: [{ name: "Sterlixit", url: siteUrl }],
-  keywords: [
-    "digital growth agency",
-    "branding services",
-    "web design and development",
-    "SaaS product development",
-    "conversion optimisation",
-    "performance marketing",
-    "SEO agency",
-    "fintech digital agency",
-  ],
+  // The <meta name="keywords"> tag has been ignored by Google since 2009 (D-21).
+  // These terms now live in visible copy / titles, where they still count.
   alternates: {
     canonical: "/",
   },
@@ -107,62 +102,16 @@ export default function RootLayout({
     process.env.NEXT_PUBLIC_ENABLE_VERCEL_ANALYTICS === "true" ||
     process.env.VERCEL === "1";
 
-  const orgSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Sterlixit",
-    url: siteUrl,
-    logo: `${siteUrl}/sterlixit.svg`,
-    sameAs: [
-      "https://www.linkedin.com/company/sterlixit",
-      "https://www.instagram.com/sterlixit",
-      "https://x.com/sterlixit",
-      "https://www.youtube.com/@sterlixit",
-      "https://www.facebook.com/sterlixit",
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "sales",
-      email: "sales@sterlixit.co.uk",
-      telephone: "020-8004-3327",
-      availableLanguage: ["en"],
-    },
-  };
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Sterlixit",
-    url: siteUrl,
-    inLanguage: "en-GB",
-    description: defaultDescription,
-    publisher: {
-      "@type": "Organization",
-      name: "Sterlixit",
-      url: siteUrl,
-    },
-  };
-
   return (
     <html lang="en-GB" suppressHydrationWarning>
       <body
         className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
-        <Script
-          id="org-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-        >
-          {JSON.stringify(orgSchema)}
-        </Script>
-        <Script
-          id="website-schema"
-          type="application/ld+json"
-          strategy="afterInteractive"
-        >
-          {JSON.stringify(websiteSchema)}
-        </Script>
+        {/* Organization + WebSite JSON-LD, server-rendered into the HTML so it
+            ships on every page for crawlers and AI agents (D-12). */}
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={websiteSchema} />
 
         {process.env.NEXT_PUBLIC_GTM_ID ? (
           // <Script id="gtm-loader" strategy="afterInteractive">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogDetailContent } from "@/components/ui/blog-detail-content";
+import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
 import { blogPosts } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -24,7 +25,7 @@ export async function generateMetadata({
       description:
         post?.excerpt ??
         "Insights and growth playbooks from the Sterlixit team.",
-      url: `https://sterlixit.co.uk/blog/${slug}`,
+      url: `https://www.sterlixit.co.uk/blog/${slug}`,
     },
   };
 }
@@ -48,6 +49,15 @@ export default async function BlogDetailPage({
   );
 
   return (
-    <BlogDetailContent post={post} related={related} readTime={readTime} />
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+          { name: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
+      <BlogDetailContent post={post} related={related} readTime={readTime} />
+    </>
   );
 }

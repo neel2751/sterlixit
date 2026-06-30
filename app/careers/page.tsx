@@ -13,15 +13,16 @@ import {
 import { careerRoles } from "@/lib/careers-data";
 
 export const metadata: Metadata = {
-  title: "Careers",
+  title:
+    "Careers at Sterlixit | Remote UK Agency Jobs in Design, Dev & Growth ",
   description:
-    "Join the Sterlixit team. We are a remote-friendly, outcome-oriented digital agency looking for designers, developers, marketers, and strategists with a growth mindset.",
+    "Join Sterlixit, a remote-first UK digital agency. Open roles in product design, full-stack development, and growth strategy for high-ownership builders.",
   alternates: { canonical: "/careers" },
   openGraph: {
     title: "Careers | Sterlixit",
     description:
       "Join the Sterlixit team. We are a remote-friendly, outcome-oriented digital agency looking for designers, developers, marketers, and strategists with a growth mindset.",
-    url: "https://sterlixit.co.uk/careers",
+    url: "https://www.sterlixit.co.uk/careers",
   },
 };
 

@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
-import { publicIntegrationConfig } from "@/lib/integrations";
 import CalForm from "../schedule-form";
 
 const industryRibbon = [

@@ -8,14 +8,13 @@ import {
   Cloud,
   Code2,
   LayoutGrid,
-  Megaphone,
-  Palette,
   ShieldCheck,
   Sparkles,
   Star,
-  Wrench,
 } from "lucide-react";
 import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
+import { JsonLd } from "@/components/json-ld";
+import { faqPageSchema } from "@/lib/structured-data";
 import { FloatingServiceSpecialtiesBar } from "@/components/floating-service-specialties-bar";
 import { ScrollParallaxWrap } from "@/components/scroll-parallax-wrap";
 import { ServiceDetailScrollRail } from "@/components/service-detail-scroll-rail";
@@ -55,7 +54,14 @@ type ServiceBlueprint = {
   solution: {
     title: string;
     intro: string;
-    items: { title: string; detail: string }[];
+    items: {
+      title: string;
+      detail: string;
+      // Optional cross-link — used to defer a topic to its dedicated page
+      // instead of duplicating it (e.g. MVP on the SaaS page — D-07).
+      href?: string;
+      linkLabel?: string;
+    }[];
   };
   veteranEdge: { title: string; body: string; stat: string; statLabel: string };
   featureBenefits: { title: string; intro: string; items: FeatureBenefit[] };
@@ -75,10 +81,9 @@ type ServiceBlueprint = {
 
 const coreBlueprints: Record<string, ServiceBlueprint> = {
   "graphics-branding": {
-    seoTitle:
-      "Graphics & Branding Services | Visual Identities Built for Market Authority",
+    seoTitle: "Branding Agency UK | Logo & Visual Identity Design | Sterlixit",
     seoDescription:
-      "Sterlixit Graphics & Branding services help startups and growth companies build premium visual identity systems, investor-ready collateral, and scalable brand assets.",
+      "UK branding agency for startups and growth-stage businesses. Logo design, visual identity systems, brand guidelines, and investor-ready collateral.",
     hero: {
       kicker: "Graphics & Branding",
       title: "Visual Identities Built for Market Authority.",
@@ -122,7 +127,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "Freelancers deliver files. Veteran teams deliver systems. Our decade of cross-industry branding work means your identity is engineered for operation, not only presentation.",
       stat: "10+",
       statLabel: "Years Building Production-Ready Brand Systems",
@@ -228,10 +233,9 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     },
   },
   "web-design-development": {
-    seoTitle:
-      "Web Design & Development Services | High-Performance Web Ecosystems",
+    seoTitle: "Web Design & Development Agency UK | React, Next.js & Shopify ",
     seoDescription:
-      "Sterlixit builds scalable web ecosystems with React, Shopify, and WordPress for performance, conversion, and long-term maintainability.",
+      "UK web design agency building high-performance sites with React, Next.js, and Shopify. Engineered for speed, conversion, and long-term maintainability.",
     hero: {
       kicker: "Web Design & Development",
       title: "High-Performance Web Ecosystems That Scale.",
@@ -271,7 +275,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "We have managed infrastructure for a decade. That means we design for reliability, maintainability, and scale before we write the first component.",
       stat: "99.9%",
       statLabel: "Uptime Standards Across Managed Properties",
@@ -360,13 +364,17 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     ],
     dynamicSuggestion: {
       teaser: "Building the backend is only one layer.",
-      body: "To launch effectively, pair your platform with strong branding and demand generation.",
+      body: "To launch effectively, pair your platform with strong branding, demand generation, or a conversion-focused storefront.",
       links: [
         {
           label: "Go to Graphics & Branding →",
           href: "/services/graphics-branding",
         },
         { label: "Go to Marketing →", href: "/services/digital-marketing" },
+        {
+          label: "Go to E-Commerce Solutions →",
+          href: "/services/e-commerce-solutions",
+        },
       ],
     },
     finalCta: {
@@ -377,10 +385,9 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     },
   },
   "digital-marketing": {
-    seoTitle:
-      "Digital Marketing Services | Data-Driven Growth. Zero Guesswork.",
+    seoTitle: "SEO & Digital Marketing Agency UK | PPC, Content & Growth ",
     seoDescription:
-      "Sterlixit digital marketing combines SEO, PPC, and conversion strategy to turn traffic into revenue with full attribution clarity.",
+      "UK SEO and digital marketing agency combining paid search, content strategy, and conversion optimisation to turn traffic into measurable revenue.",
     hero: {
       kicker: "Digital Marketing",
       title: "Data-Driven Growth. Zero Guesswork.",
@@ -419,7 +426,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "After a decade of algorithm shifts and cross-industry campaigns, we know how to adapt quickly while maintaining ROI discipline.",
       stat: "Weekly",
       statLabel: "Optimization Cycles for Active Campaigns",
@@ -506,7 +513,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     ],
     dynamicSuggestion: {
       teaser: "Marketing brings users in. Experience converts them.",
-      body: "Strengthen conversion with faster web performance and clearer brand positioning.",
+      body: "Strengthen conversion with faster web performance, clearer brand positioning, or a higher-converting store.",
       links: [
         {
           label: "Go to Web Development →",
@@ -515,6 +522,10 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
         {
           label: "Go to Graphics & Branding →",
           href: "/services/graphics-branding",
+        },
+        {
+          label: "Go to E-Commerce Solutions →",
+          href: "/services/e-commerce-solutions",
         },
       ],
     },
@@ -526,10 +537,9 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     },
   },
   "custom-saas-it-solutions": {
-    seoTitle:
-      "Custom SaaS & IT Solutions | Engineering the Future of Industry Software",
+    seoTitle: "Custom SaaS & Software Development Agency UK | Sterlixit ",
     seoDescription:
-      "Sterlixit builds scalable SaaS and IT systems with MVP delivery, cloud architecture, legacy modernization, and product-grade engineering discipline.",
+      "UK custom software and SaaS development agency. Scalable systems with MVP delivery, cloud architecture, and legacy modernisation built to production-grade standards.",
     hero: {
       kicker: "Custom SaaS / IT Solutions",
       title: "Engineering the Future of Industry Software.",
@@ -553,7 +563,10 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       items: [
         {
           title: "MVP Development",
-          detail: "Launch market-validated products in weeks, not years.",
+          detail:
+            "Need to launch a validated product fast? We deliver production-ready MVPs in 6–12 weeks — covered in full on our dedicated MVP Development service.",
+          href: "/services/mvp-development",
+          linkLabel: "View full MVP Development service",
         },
         {
           title: "API & Cloud (AWS)",
@@ -566,7 +579,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "Our engineers have operated production systems for a decade and built in-house SaaS. We design with operational reality in mind, not prototype assumptions.",
       stat: "3",
       statLabel: "In-House SaaS Platforms Built by the Same Team",
@@ -648,8 +661,12 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     ],
     dynamicSuggestion: {
       teaser: "Building a SaaS? You'll need more than just code.",
-      body: "Pair engineering with launch-ready branding and acquisition strategy for successful go-to-market.",
+      body: "Validate fast with a dedicated MVP build, then pair engineering with launch-ready branding and acquisition strategy for go-to-market.",
       links: [
+        {
+          label: "Go to MVP Development →",
+          href: "/services/mvp-development",
+        },
         {
           label: "Go to Graphics & Branding →",
           href: "/services/graphics-branding",
@@ -665,9 +682,10 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
     },
   },
   "support-maintenance": {
-    seoTitle: "Support & Maintenance Services | Scoped SLA Support",
+    seoTitle:
+      "Website & Software Support UK | Scoped SLA Maintenance | Sterlixit ",
     seoDescription:
-      "Sterlixit support and maintenance services include monitoring, security, incident response, and scoped SLA models tailored to each system's operational risk.",
+      "UK website and software support services. Proactive monitoring, security patching, incident response, and scoped SLA models tailored to your system's risk profile. ",
     hero: {
       kicker: "Support & Maintenance",
       title: "Support Systems Built Around Your Real SLA Needs.",
@@ -717,7 +735,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "After a decade of supporting production systems across multiple industries, we bias toward prevention, clarity, and operational discipline instead of selling aggressive SLA promises that the environment cannot realistically support.",
       stat: "10+",
       statLabel: "Years Supporting Production-Critical Systems",
@@ -837,9 +855,9 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       "SLA expectations are scoped after reviewing system complexity, business criticality, and coverage needs.",
   },
   "mvp-development": {
-    seoTitle: "MVP Development Services | Launch Your Product in 6-12 Weeks",
+    seoTitle: "MVP Development Agency UK | Launch in 6–12 Weeks | Sterlixit ",
     seoDescription:
-      "Build market-validated products with Sterlixit's MVP development services. From concept to launch, we deliver focused MVPs in 6-12 weeks using proven engineering practices and production-ready architecture.",
+      "UK MVP development agency. Launch a market-validated product in 6–12 weeks with production-ready architecture, clean code ownership, and proven delivery discipline.",
     hero: {
       kicker: "MVP Development",
       title: "Launch Your Product in Weeks, Not Years.",
@@ -890,7 +908,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "We have launched 3 SaaS MVPs with the same team you are hiring. BrickJourney, our property-tech platform, and internal HR systems validate that we understand product rhythms, architectural tradeoffs, and the cost of premature optimisation. Your MVP benefits from patterns tested in production, not just theory.",
       stat: "3",
       statLabel: "In-House SaaS Platforms Built & Operated",
@@ -1025,9 +1043,9 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       "Average first response: within 4 business hours. Most strategy calls are 45-60 minutes.",
   },
   "e-commerce-solutions": {
-    seoTitle: "E-Commerce Solutions | Build High-Converting Online Stores",
+    seoTitle: "E-Commerce Agency UK | Shopify, WooCommerce & Custom Stores",
     seoDescription:
-      "Sterlixit e-commerce solutions combine strategic design, conversion optimisation, and seamless integrations. From Shopify to custom platforms, we build stores that drive revenue and scale reliably.",
+      "UK e-commerce agency for Shopify, WooCommerce, and custom storefronts. Conversion-focused design, payment integration, and ongoing growth optimisation. ",
     hero: {
       kicker: "E-Commerce Solutions",
       title: "E-Commerce Built for Revenue, Not Just Browsing.",
@@ -1089,7 +1107,7 @@ const coreBlueprints: Record<string, ServiceBlueprint> = {
       ],
     },
     veteranEdge: {
-      title: "The 10-Year Difference.",
+      title: "Our Founders' 10+ Year Track Record.",
       body: "We have run our own e-commerce operations and built platforms serving thousands of SKUs across multiple verticals—property, construction, lifestyle, and digital products. Your store benefits from operational experience, not just ecommerce templates.",
       stat: "10+",
       statLabel: "Years Building Revenue-Focused Online Experiences",
@@ -1405,6 +1423,16 @@ function ServiceSolutionSection({
                       ),
                     )}
                   </div>
+
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                    >
+                      {item.linkLabel ?? "Learn more"}
+                      <ArrowUpRight className="size-4" />
+                    </Link>
+                  ) : null}
                 </article>
               </AnimatedReveal>
             ))}
@@ -1919,7 +1947,7 @@ export async function generateMetadata({
         blueprint?.seoDescription ??
         service?.summary ??
         "Explore Sterlixit specialist digital services designed to drive brand growth, web performance, and revenue outcomes.",
-      url: `https://sterlixit.co.uk/services/${slug}`,
+      url: `https://www.sterlixit.co.uk/services/${slug}`,
     },
   };
 }
@@ -1933,10 +1961,8 @@ export default async function ServiceDetailPage({
   const service = allServicePages.find((item) => item.slug === slug);
   if (!service) notFound();
 
-  const isCoreService = Object.prototype.hasOwnProperty.call(
-    coreBlueprints,
-    slug,
-  );
+  const blueprint = coreBlueprints[slug];
+  const isCoreService = Boolean(blueprint);
 
   return (
     <main className="min-h-screen bg-background">
@@ -1947,6 +1973,8 @@ export default async function ServiceDetailPage({
           { name: service.title, href: `/services/${slug}` },
         ]}
       />
+      {/* FAQPage schema mirrors the visible FAQ accordion answers (D-02 + D-12). */}
+      {blueprint ? <JsonLd data={faqPageSchema(blueprint.faqs)} /> : null}
       <SiteHeader />
 
       {isCoreService ? (

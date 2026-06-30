@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
 
 import { portfolioItems } from "@/lib/site-data";
 
@@ -38,7 +39,7 @@ export async function generateMetadata({
       description:
         item?.solution ??
         "Browse Sterlixit case studies showcasing measurable outcomes in web, branding, marketing, and SaaS.",
-      url: `https://sterlixit.co.uk/portfolio/${slug}`,
+      url: `https://www.sterlixit.co.uk/portfolio/${slug}`,
     },
   };
 }
@@ -369,6 +370,13 @@ export default async function PortfolioDetailPage({
 
   return (
     <main className="min-h-screen bg-background">
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Case Studies", href: "/portfolio" },
+          { name: item.title, href: `/portfolio/${item.slug}` },
+        ]}
+      />
       <SiteHeader />
 
       <section className="relative overflow-hidden bg-background py-20 md:py-24">

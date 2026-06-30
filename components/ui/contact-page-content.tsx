@@ -1140,7 +1140,7 @@ function SaaSSynergyStrip() {
               size="lg"
               className="rounded-full px-6 font-semibold"
             >
-              <Link href="/saas-solutions">
+              <Link href="/services/custom-saas-it-solutions">
                 <Zap className="mr-2 size-4" />
                 Explore BrickJourney
               </Link>
@@ -1151,7 +1151,7 @@ function SaaSSynergyStrip() {
               size="lg"
               className="rounded-full border-white/20 bg-white/5 px-6 font-semibold text-white hover:bg-white/10 hover:text-white"
             >
-              <Link href="/saas-solutions">
+              <Link href="/services/custom-saas-it-solutions">
                 <Code2 className="mr-2 size-4" />
                 Property Management Suite
               </Link>

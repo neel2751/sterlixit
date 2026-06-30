@@ -1,120 +1,3 @@
-/*
- * OLD SERVICES PAGE (preserved for reference)
- *
- * import type { Metadata } from "next";
- * import Link from "next/link";
- * import { Button } from "@/components/ui/button";
- * import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
- * import {
- *   Table,
- *   TableBody,
- *   TableCell,
- *   TableHead,
- *   TableHeader,
- *   TableRow,
- * } from "@/components/ui/table";
- * import {
- *   StandardPageLayout,
- *   SimpleCardsSection,
- * } from "@/components/page-primitives";
- * import { SiteSection } from "@/components/site-shell";
- * import { servicePages } from "@/lib/site-data";
- *
- * export const metadata: Metadata = {
- *   title: "Our Services",
- *   description:
- *     "End-to-end digital services covering branding, web development, digital marketing, SaaS engineering, and support-all from one trusted growth partner.",
- *   alternates: { canonical: "/services" },
- *   openGraph: {
- *     title: "Our Services | Sterlixit",
- *     description:
- *       "End-to-end digital services covering branding, web development, digital marketing, SaaS engineering, and support-all from one trusted growth partner.",
- *     url: "https://sterlixit.co.uk/services",
- *   },
- * };
- *
- * export default function ServicesPage() {
- *   return (
- *     <StandardPageLayout
- *       title="Services"
- *       subtitle="End-to-end design, development, and growth services with linked detail pages."
- *       breadcrumbs={[
- *         { name: "Home", href: "/" },
- *         { name: "Services", href: "/services" },
- *       ]}
- *     >
- *       <SiteSection
- *         title="Intro"
- *         description="Choose a service track aligned to your growth objectives."
- *       >
- *         <p className="text-muted-foreground">
- *           Every service stream includes strategy, execution, and measurable
- *           outcomes.
- *         </p>
- *       </SiteSection>
- *
- *       <SiteSection title="Service Categories Overview">
- *         <div className="grid gap-4 md:grid-cols-2">
- *           {servicePages.map((service) => (
- *             <Card key={service.slug}>
- *               <CardHeader>
- *                 <CardTitle>{service.title}</CardTitle>
- *               </CardHeader>
- *               <CardContent className="space-y-3">
- *                 <p className="text-sm text-muted-foreground">
- *                   {service.summary}
- *                 </p>
- *                 <Button asChild variant="outline" size="sm">
- *                   <Link href={`/services/${service.slug}`}>
- *                     Open Service Page
- *                   </Link>
- *                 </Button>
- *               </CardContent>
- *             </Card>
- *           ))}
- *         </div>
- *       </SiteSection>
- *
- *       <SiteSection title="Comparison Table (Packages)">
- *         <Table>
- *           <TableHeader>
- *             <TableRow>
- *               <TableHead>Package</TableHead>
- *               <TableHead>Best For</TableHead>
- *               <TableHead>Includes</TableHead>
- *             </TableRow>
- *           </TableHeader>
- *           <TableBody>
- *             <TableRow>
- *               <TableCell>Starter</TableCell>
- *               <TableCell>Early-stage teams</TableCell>
- *               <TableCell>Core design + implementation</TableCell>
- *             </TableRow>
- *             <TableRow>
- *               <TableCell>Growth</TableCell>
- *               <TableCell>Scaling companies</TableCell>
- *               <TableCell>Cross-channel execution + analytics</TableCell>
- *             </TableRow>
- *             <TableRow>
- *               <TableCell>Scale</TableCell>
- *               <TableCell>Complex organizations</TableCell>
- *               <TableCell>
- *                 Dedicated squad + SLAs + advanced integrations
- *               </TableCell>
- *             </TableRow>
- *           </TableBody>
- *         </Table>
- *       </SiteSection>
- *
- *       <SimpleCardsSection
- *         title="CTA"
- *         items={["Book a free consultation", "Request custom proposal"]}
- *       />
- *     </StandardPageLayout>
- *   );
- * }
- */
-
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -131,6 +14,7 @@ import {
   LineChart,
   Rocket,
   ShieldCheck,
+  ShoppingBag,
   Sparkles,
   Wrench,
   Workflow,
@@ -149,15 +33,15 @@ import {
 import { differentiators } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Services | End-to-End Technology Solutions for Every Growth Stage",
+  title: "Digital Agency Services UK | Web Design, Branding, SaaS & SEO ",
   description:
-    "Sterlixit delivers end-to-end technology services across branding, web engineering, digital marketing, custom SaaS development, and 24/5 support. Explore engagement models, technology stack expertise, and scalable service packages.",
+    "Explore Sterlixit's full UK agency service range: web design, branding, SEO, digital marketing, custom SaaS development, MVP builds, and ongoing support.",
   alternates: { canonical: "/services" },
   openGraph: {
     title: "Services | Sterlixit",
     description:
       "From brand identity to complex SaaS platforms, Sterlixit provides complete technology solutions with enterprise-grade delivery standards and founder-level execution.",
-    url: "https://sterlixit.co.uk/services",
+    url: "https://www.sterlixit.co.uk/services",
   },
 };
 
@@ -203,26 +87,21 @@ const serviceCards = [
     href: "/services/support-maintenance",
     icon: Headset,
   },
-];
-
-const engagementModels = [
   {
-    model: "Project-Based",
-    bestFor: "One-time needs",
-    deliverables:
-      "Fixed scope and fixed timeline engagements (for example: logo system, landing page, or website build).",
+    title: "MVP Development",
+    summary: "Production-ready MVPs that reach market in 6–12 weeks.",
+    detail:
+      "Validate your product fast with focused, launch-ready builds — discovery, architecture, and iterative delivery in one team.",
+    href: "/services/mvp-development",
+    icon: Rocket,
   },
   {
-    model: "Retainer (Monthly)",
-    bestFor: "Ongoing growth",
-    deliverables:
-      "Dedicated monthly hours for SEO, performance marketing, website optimisation, and support operations.",
-  },
-  {
-    model: "Dedicated Team",
-    bestFor: "Custom SaaS and enterprise delivery",
-    deliverables:
-      "A dedicated cross-functional team focused on building, shipping, and scaling your product roadmap.",
+    title: "E-Commerce Solutions",
+    summary: "High-converting online stores built to scale.",
+    detail:
+      "Conversion-focused storefronts engineered for checkout speed, scalable catalogues, and paid-acquisition growth.",
+    href: "/services/e-commerce-solutions",
+    icon: ShoppingBag,
   },
 ];
 

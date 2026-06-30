@@ -490,7 +490,9 @@ export function SiteFooter() {
                 height={32}
                 className="h-14 w-auto"
               />
-              <span className="sr-only">Sterlixit</span>
+              <span className="text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-xl">
+                Sterlixit
+              </span>
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               <a
@@ -582,10 +584,7 @@ export function SiteContainer({
 }) {
   return (
     <div
-      className={cn(
-        "mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8",
-        className,
-      )}
+      className={cn("mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8", className)}
     >
       {children}
     </div>
@@ -786,7 +785,10 @@ export function HomeHeroMotion() {
 
   return (
     <section className="relative overflow-hidden border-b border-border/70 pb-16 pt-12 md:pb-24 md:pt-20">
-      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div
+        className="absolute inset-0 -z-10 overflow-hidden"
+        aria-hidden="true"
+      >
         <div className="absolute -top-40 left-1/2 h-[30rem] w-[56rem] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
         <div className="absolute inset-0 bg-[radial-gradient(rgba(99,102,241,0.18)_1px,transparent_1px)] bg-size-[26px_26px] opacity-40 mask-[radial-gradient(ellipse_70%_55%_at_50%_25%,black,transparent_80%)]" />
       </div>
@@ -826,6 +828,10 @@ export function HomeHeroMotion() {
                 </AnimatePresence>
               </span>
             </h1>
+
+            <h2 className="text-pretty text-lg font-medium text-foreground/80 md:text-xl">
+              UK web design, branding &amp; SaaS development agency.
+            </h2>
 
             <p className="max-w-lg text-pretty text-[17px] leading-relaxed text-muted-foreground">
               Sterlixit combines design, engineering, and performance marketing
@@ -877,7 +883,11 @@ export function HomeHeroMotion() {
               <div className="absolute -inset-6 -z-10 rounded-4xl bg-[radial-gradient(circle_at_50%_30%,rgba(99,102,241,0.20),transparent_70%)] blur-2xl" />
               <motion.div
                 initial={shouldReduceMotion ? false : { rotate: -1.5, y: 8 }}
-                animate={shouldReduceMotion ? undefined : { rotate: [0, 1, 0], y: [0, -6, 0] }}
+                animate={
+                  shouldReduceMotion
+                    ? undefined
+                    : { rotate: [0, 1, 0], y: [0, -6, 0] }
+                }
                 transition={loop(8)}
                 className="relative rounded-3xl border border-border/70 bg-card/70 p-2.5 shadow-[var(--shadow-lg)] backdrop-blur-xl md:p-3"
               >
@@ -911,7 +921,11 @@ export function HomeHeroMotion() {
 
                 <motion.div
                   className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/90 px-2.5 py-1 text-[11px] font-medium text-foreground shadow-md backdrop-blur-xl"
-                  animate={shouldReduceMotion ? undefined : { opacity: [0.85, 1, 0.85] }}
+                  animate={
+                    shouldReduceMotion
+                      ? undefined
+                      : { opacity: [0.85, 1, 0.85] }
+                  }
                   transition={loop(2.4)}
                 >
                   <span className="size-1.5 rounded-full bg-emerald-500" />

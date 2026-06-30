@@ -26,12 +26,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { HomeSitelinksSchema } from "@/components/breadcrumb-schema";
+import { JsonLd } from "@/components/json-ld";
+import { localBusinessSchema } from "@/lib/structured-data";
 import {
   AnimatedReveal,
   ExitIntentDialog,
   HomeHeroMotion,
   LiveChatButton,
-  MarketingFeatureStack,
   SiteContainer,
   SiteFooter,
   SiteHeader,
@@ -39,8 +40,6 @@ import {
 } from "@/components/site-shell";
 import { GlassmorphismPortfolioBlock } from "@/components/ui/glassmorphism-portfolio-block-shadcnui";
 import { Testimonial as CleanTestimonial } from "@/components/ui/clean-testimonial";
-import { VercepFeaturesSection } from "@/components/ui/vercep-features-section";
-import { Input } from "@/components/ui/input";
 import {
   coreServices,
   differentiators,
@@ -322,10 +321,6 @@ const explorePages = [
 ];
 
 export default function HomePage() {
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterState, setNewsletterState] = useState<
-    "idle" | "loading" | "done" | "error"
-  >("idle");
   const [isJumpDockHidden, setIsJumpDockHidden] = useState(false);
   const [activeJumpId, setActiveJumpId] = useState("hero");
   const mainRef = useRef<HTMLElement>(null);
@@ -380,6 +375,7 @@ export default function HomePage() {
       className="min-h-screen overflow-x-clip bg-background md:h-screen md:snap-y md:snap-proximity md:overflow-y-auto md:scroll-smooth md:scroll-pt-20"
     >
       <HomeSitelinksSchema items={homeSitelinks} />
+      <JsonLd data={localBusinessSchema} />
       <SiteHeader />
 
       <div id="main-content" tabIndex={-1} className="outline-none">
@@ -724,8 +720,8 @@ export default function HomePage() {
 
                     <div className="mt-4 flex items-center justify-between">
                       <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                        {industry.caseStudies.length} case study
-                        {industry.caseStudies.length > 1 ? "ies" : ""}
+                        {industry.caseStudies.length} case stud
+                        {industry.caseStudies.length > 1 ? "ies" : "y"}
                       </p>
                       <Button
                         asChild
@@ -1068,8 +1064,8 @@ export default function HomePage() {
                     </div>
                     <div className="mt-4 flex items-center justify-between">
                       <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                        {industry.caseStudies.length} case study
-                        {industry.caseStudies.length > 1 ? "ies" : ""}
+                        {industry.caseStudies.length} case stud
+                        {industry.caseStudies.length > 1 ? "ies" : "y"}
                       </p>
                       <Button
                         asChild

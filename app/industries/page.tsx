@@ -33,15 +33,15 @@ import {
 } from "@/components/site-shell";
 
 export const metadata: Metadata = {
-  title: "Industries | Industry-Specific Intelligence. Veteran-Led Execution.",
+  title: "Industries We Serve UK | Real Estate, Healthcare, SaaS & More",
   description:
-    "Sterlixit builds the digital backbone for Real Estate, HR, Travel, Finance, Healthcare, Retail, and professional service firms with veteran-led execution, compliance-aware architecture, and proven SaaS expertise.",
+    "Industry-specific digital solutions from Sterlixit for UK startups, e-commerce, healthcare, real estate, education, and SaaS businesses. ",
   alternates: { canonical: "/industries" },
   openGraph: {
     title: "Industries | Sterlixit",
     description:
       "Industry-specific intelligence backed by 10+ years of execution across Real Estate, HR, Travel, Finance, Healthcare, Retail, and more.",
-    url: "https://sterlixit.co.uk/industries",
+    url: "https://www.sterlixit.co.uk/industries",
   },
 };
 

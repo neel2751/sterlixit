@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { serverIntegrationConfig, submitLeadToCrm } from "@/lib/integrations";
+import { submitLeadToCrm } from "@/lib/integrations";
 
 export async function POST(request: Request) {
   try {

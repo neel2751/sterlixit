@@ -39,7 +39,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${role.title} | Careers | Sterlixit`,
       description: `${role.title} role at Sterlixit. ${role.summary}`,
-      url: `https://sterlixit.co.uk/careers/${role.slug}`,
+      url: `https://www.sterlixit.co.uk/careers/${role.slug}`,
     },
   };
 }
@@ -67,14 +67,14 @@ export default async function CareerDetailPage({
     hiringOrganization: {
       "@type": "Organization",
       name: "Sterlixit",
-      sameAs: "https://sterlixit.co.uk",
-      logo: "https://sterlixit.co.uk/sterlixit.svg",
+      sameAs: "https://www.sterlixit.co.uk",
+      logo: "https://www.sterlixit.co.uk/sterlixit.svg",
     },
     applicantLocationRequirements: {
       "@type": "Country",
       name: "India",
     },
-    url: `https://sterlixit.co.uk/careers/${role.slug}`,
+    url: `https://www.sterlixit.co.uk/careers/${role.slug}`,
     datePosted: "2026-04-06",
     validThrough: "2026-12-31",
   };

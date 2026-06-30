@@ -308,7 +308,7 @@ export async function generateMetadata({
                 : isNda
                   ? "NDA terms describing confidentiality obligations for business, product, and technical information shared with Sterlixit."
                   : `${legal?.title ?? "Legal information"} for Sterlixit services and platform usage.`,
-      url: `https://sterlixit.co.uk/legal/${slug}`,
+      url: `https://www.sterlixit.co.uk/legal/${slug}`,
     },
   };
 }

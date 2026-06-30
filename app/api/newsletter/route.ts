@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  serverIntegrationConfig,
-  subscribeToNewsletter,
-} from "@/lib/integrations";
+import { subscribeToNewsletter } from "@/lib/integrations";
 
 export async function POST(request: Request) {
   try {

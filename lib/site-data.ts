@@ -5,6 +5,8 @@ export type LinkItem = {
 
 export type ServicePage = {
   slug: string;
+  seoTitle?: string;
+  seoDescription?: string;
   title: string;
   summary: string;
   sections: string[];
@@ -13,6 +15,10 @@ export type ServicePage = {
 
 export type PortfolioItem = {
   slug: string;
+  meta: {
+    title: string;
+    description: string;
+  };
   title: string;
   category: "Web" | "Branding" | "Marketing" | "SaaS";
   client: string;
@@ -85,11 +91,26 @@ export const coreServices = [
     description:
       "Proactive monitoring, scoped SLA support, and continuous optimisation for digital stability.",
   },
+  {
+    slug: "mvp-development",
+    title: "MVP Development",
+    description:
+      "Production-ready MVPs that validate your product and reach market in 6–12 weeks, not years.",
+  },
+  {
+    slug: "e-commerce-solutions",
+    title: "E-Commerce Solutions",
+    description:
+      "High-converting online stores engineered for checkout speed, scale, and measurable revenue.",
+  },
 ];
 
 export const servicePages: ServicePage[] = [
   {
     slug: "graphics-branding",
+    seoTitle: "Branding Agency UK | Logo & Visual Identity Design | Sterlixit",
+    seoDescription:
+      "UK branding agency for startups and growth-stage businesses. Logo design, visual identity systems, brand guidelines, and investor-ready collateral.",
     title: "Graphics & Branding",
     summary:
       "Build a cohesive visual identity that compounds trust across every customer touchpoint.",
@@ -116,6 +137,9 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "web-design-development",
+    seoTitle: "Web Design & Development Agency UK | React, Next.js & Shopify ",
+    seoDescription:
+      "UK web design agency building high-performance sites with React, Next.js, and Shopify. Engineered for speed, conversion, and long-term maintainability.",
     title: "Web Design & Development",
     summary:
       "Craft conversion-focused digital experiences with robust engineering and clean UX.",
@@ -145,6 +169,9 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "digital-marketing",
+    seoTitle: "SEO & Digital Marketing Agency UK | PPC, Content & Growth",
+    seoDescription:
+      "UK SEO and digital marketing agency combining paid search, content strategy, and conversion optimisation to turn traffic into measurable revenue.",
     title: "Digital Marketing",
     summary:
       "Scale awareness and pipeline with full-funnel campaigns rooted in analytics.",
@@ -179,6 +206,9 @@ export const servicePages: ServicePage[] = [
   },
   {
     slug: "custom-saas-it-solutions",
+    seoTitle: "Custom SaaS & Software Development Agency UK | Sterlixit ",
+    seoDescription:
+      "UK custom software and SaaS development agency. Scalable systems with MVP delivery, cloud architecture, and legacy modernisation built to production-grade standards.",
     title: "Custom SaaS / IT Solutions",
     summary:
       "Modernize systems and launch resilient products with cloud-native engineering.",
@@ -302,6 +332,12 @@ export const processSteps = [
 export const portfolioItems: PortfolioItem[] = [
   {
     slug: "cdc-construction",
+    meta: {
+      title:
+        "CDC Construction Digital Growth & Operations Platform | Sterlixit",
+      description:
+        "How Sterlixit built CDC Construction a unified website, marketing system, and custom operations platform — delivering 35% faster cross-site reporting.",
+    },
     title: "CDC Construction Growth & Operations Platform",
     category: "Web",
     client: "CDC Construction",
@@ -326,6 +362,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "cdc-property",
+    meta: {
+      title: "CDC Property Management Digital Operations Platform | Sterlixit ",
+      description:
+        "How Sterlixit built CDC Property Management a unified digital system for tenant journeys, workflows, and lead-to-tenancy continuity — 40% faster tenant onboarding.",
+    },
     title: "CDC Property Management Digital Operations Platform",
     category: "Web",
     client: "CDC Property Management",
@@ -350,6 +391,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "cdc-development",
+    meta: {
+      title: "CDC Development Investment & Delivery Platform | Sterlixit ",
+      description:
+        "How Sterlixit built CDC Development a structured digital platform for residential and commercial investment audiences — 32% faster planning cycles.",
+    },
     title: "CDC Development Investment & Delivery Platform",
     category: "Web",
     client: "CDC Development",
@@ -379,6 +425,12 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "interior-studio",
+    meta: {
+      title:
+        "Interior Studio Digital Experience Platform Case Study | Sterlixit",
+      description:
+        "How Sterlixit built Interior Studio a premium digital experience that improved consultation intent and strengthened project visibility.",
+    },
     title: "Interior Studio Digital Experience Platform",
     category: "Web",
     client: "Interior Studio Ltd",
@@ -403,6 +455,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "lomashwood",
+    meta: {
+      title: "Lomash Wood E-Commerce & Digital Commerce Platform | Sterlixit",
+      description:
+        "How Sterlixit built Lomash Wood a full production-ready e-commerce platform from zero to launch, with ongoing support and sustained growth performance.",
+    },
     title: "Lomash Wood End-to-End Digital Commerce Platform",
     category: "Web",
     client: "Lomash Wood",
@@ -432,6 +489,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "cdc-housing",
+    meta: {
+      title: "CDC Housing WordPress & Digital Marketing Platform | Sterlixit",
+      description:
+        "How Sterlixit aligned CDC Housing's website and digital marketing into one growth system, improving enquiry journeys and campaign measurement.",
+    },
     title: "CDC Housing WordPress and Digital Marketing Platform",
     category: "Web",
     client: "CDC Housing",
@@ -456,6 +518,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "healthflow-saas-platform",
+    meta: {
+      title: "HealthFlow SaaS Platform | Sterlixit",
+      description:
+        "How Sterlixit built HealthFlow a scalable SaaS platform that improved clinical workflows and user adoption.",
+    },
     title: "HealthFlow SaaS Platform",
     category: "SaaS",
     client: "HealthFlow",
@@ -480,6 +547,11 @@ export const portfolioItems: PortfolioItem[] = [
   },
   {
     slug: "atlas-commerce-replatform",
+    meta: {
+      title: "Atlas Commerce Replatform | Sterlixit",
+      description:
+        "How Sterlixit rebuilt Atlas Retail's e-commerce platform for better performance and conversion.",
+    },
     title: "Atlas Commerce Replatform",
     category: "Web",
     client: "Atlas Retail",
@@ -501,6 +573,11 @@ export const portfolioItems: PortfolioItem[] = [
     title: "Lumen Brand Refresh",
     category: "Branding",
     client: "Lumen Energy",
+    meta: {
+      title: "Lumen Brand Refresh | Sterlixit",
+      description:
+        "How Sterlixit rebuilt Lumen Energy's brand identity for consistent communication across all channels.",
+    },
     problem:
       "Inconsistent visual identity across investor, sales, and social channels.",
     solution:
@@ -523,6 +600,11 @@ export const portfolioItems: PortfolioItem[] = [
     title: "Optima Demand Engine",
     category: "Marketing",
     client: "Optima B2B",
+    meta: {
+      title: "Optima Demand Engine | Sterlixit",
+      description:
+        "How Sterlixit implemented a full-funnel growth system for Optima B2B, improving lead generation and conversion.",
+    },
     problem:
       "High CAC and fragmented channel performance with unclear attribution.",
     solution:
@@ -656,9 +738,9 @@ export const industries: IndustryPage[] = [
 export const blogPosts: BlogPost[] = [
   {
     slug: "how-to-build-a-digital-growth-engine",
-    title: "How to Build a Digital Growth Engine in 90 Days",
+    title: "How to Build a Digital Growth Engine in 90 Days | Sterlixit",
     excerpt:
-      "A practical roadmap to align brand, website, and demand generation around revenue outcomes.",
+      "A step-by-step 90-day roadmap to align your brand, website, and demand generation into a connected revenue system. Written by the Sterlixit team.",
     category: "Growth Strategy",
     date: "2026-02-10",
     author: "Sterlixit Team",
