@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CareerApplicationForm } from "@/components/career-application-form";
+import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
 import {
   ExitIntentDialog,
   LiveChatButton,
@@ -84,6 +85,13 @@ export default async function CareerDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Careers", href: "/careers" },
+          { name: role.title, href: `/careers/${role.slug}` },
+        ]}
       />
 
       <SiteHeader />

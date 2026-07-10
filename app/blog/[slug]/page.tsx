@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogDetailContent } from "@/components/ui/blog-detail-content";
 import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
+import { JsonLd } from "@/components/json-ld";
+import { blogPostingSchema } from "@/lib/structured-data";
 import { blogPosts } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -57,6 +59,8 @@ export default async function BlogDetailPage({
           { name: post.title, href: `/blog/${post.slug}` },
         ]}
       />
+      {/* BlogPosting schema built from the byline visible on the page (D-02). */}
+      <JsonLd data={blogPostingSchema(post)} />
       <BlogDetailContent post={post} related={related} readTime={readTime} />
     </>
   );

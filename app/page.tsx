@@ -27,7 +27,10 @@ import {
 } from "@/components/ui/accordion";
 import { HomeSitelinksSchema } from "@/components/breadcrumb-schema";
 import { JsonLd } from "@/components/json-ld";
-import { localBusinessSchema } from "@/lib/structured-data";
+import {
+  faqPageSchemaFromQuestions,
+  localBusinessSchema,
+} from "@/lib/structured-data";
 import {
   AnimatedReveal,
   ExitIntentDialog,
@@ -376,6 +379,8 @@ export default function HomePage() {
     >
       <HomeSitelinksSchema items={homeSitelinks} />
       <JsonLd data={localBusinessSchema} />
+      {/* FAQPage schema mirrors the visible homepage FAQ accordion (D-02). */}
+      <JsonLd data={faqPageSchemaFromQuestions(homeFaqs)} />
       <SiteHeader />
 
       <div id="main-content" tabIndex={-1} className="outline-none">

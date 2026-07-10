@@ -12,6 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
+import { JsonLd } from "@/components/json-ld";
+import { creativeWorkSchema } from "@/lib/structured-data";
 
 import { portfolioItems } from "@/lib/site-data";
 
@@ -376,6 +378,15 @@ export default async function PortfolioDetailPage({
           { name: "Case Studies", href: "/portfolio" },
           { name: item.title, href: `/portfolio/${item.slug}` },
         ]}
+      />
+      {/* CreativeWork schema — creator links to the sitewide Organization by @id. */}
+      <JsonLd
+        data={creativeWorkSchema({
+          slug: item.slug,
+          title: item.title,
+          description: item.meta.description,
+          technologies: item.technologies,
+        })}
       />
       <SiteHeader />
 

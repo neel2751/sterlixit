@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { TestimonialsPageContent } from "@/components/ui/testimonials-page-content";
+import { JsonLd } from "@/components/json-ld";
+import { organizationReviewsSchema } from "@/lib/structured-data";
+import { testimonials } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "Client Testimonials & Reviews | Digital Agency London | Sterlixit ",
@@ -15,5 +18,11 @@ export const metadata: Metadata = {
 };
 
 export default function TestimonialsPage() {
-  return <TestimonialsPageContent />;
+  return (
+    <>
+      {/* Review + AggregateRating built from the same reviews rendered below. */}
+      <JsonLd data={organizationReviewsSchema(testimonials)} />
+      <TestimonialsPageContent />
+    </>
+  );
 }

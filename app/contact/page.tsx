@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ContactPageContent } from "@/components/ui/contact-page-content";
 import { JsonLd } from "@/components/json-ld";
-import { localBusinessSchema } from "@/lib/structured-data";
+import { contactPageSchema, localBusinessSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title:
@@ -21,6 +21,8 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd data={localBusinessSchema} />
+      {/* ContactPage.about references the LocalBusiness node above by @id. */}
+      <JsonLd data={contactPageSchema} />
       <ContactPageContent />
     </>
   );

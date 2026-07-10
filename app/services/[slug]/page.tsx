@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { BreadcrumbSchema } from "@/components/breadcrumb-schema";
 import { JsonLd } from "@/components/json-ld";
-import { faqPageSchema } from "@/lib/structured-data";
+import { faqPageSchema, serviceSchema } from "@/lib/structured-data";
 import { FloatingServiceSpecialtiesBar } from "@/components/floating-service-specialties-bar";
 import { ScrollParallaxWrap } from "@/components/scroll-parallax-wrap";
 import { ServiceDetailScrollRail } from "@/components/service-detail-scroll-rail";
@@ -1975,6 +1975,8 @@ export default async function ServiceDetailPage({
       />
       {/* FAQPage schema mirrors the visible FAQ accordion answers (D-02 + D-12). */}
       {blueprint ? <JsonLd data={faqPageSchema(blueprint.faqs)} /> : null}
+      {/* Service schema — provider links to the sitewide Organization by @id. */}
+      <JsonLd data={serviceSchema(service)} />
       <SiteHeader />
 
       {isCoreService ? (
